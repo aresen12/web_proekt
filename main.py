@@ -1,4 +1,4 @@
-from flask import Flask, url_for
+from flask import Flask, url_for, request
 
 app = Flask(__name__)
 
@@ -33,10 +33,14 @@ def available():
         return available_f.read()
 
 
-@app.route("/forms.html")
+@app.route("/forms.html", methods=["GET", "POST"])
 def form():
-    with open('forms.html', encoding='utf-8') as file:
-        return file.read()
+    if request.method == 'GET':
+        with open('forms.html', encoding='utf-8') as file:
+            return file.read()
+    elif request.method == "POST":
+        with open('ansver.html', encoding='utf-8') as file:
+            return file.read()
 
 
 if __name__ == "__main__":
