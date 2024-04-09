@@ -1,19 +1,20 @@
 {% extends "base.html" %}
 {% block content %}
-<h2>Мои работы</h2>
+
 <div class="container_my" >
+    <h2>Мои работы</h2>
 {% for item in icons %}
-    <div class="row" style="justify-content: center;">
-    <figure  class="col" style="height:600px; width:400px; min-width:400px; max-height:600px;3z">
-        <figcaption style="color: white" class="col">{{item[0]["title"]}}</figcaption>
+    <div class="row" id="row">
+    <figure  class="col" style="height:600px; max-width:400px; min-width:400px; max-height:500px;border:2px solid grey">
+        <figcaption style="" class="col">{{item[0]["title"]}}</figcaption>
         <img src="static/img/{{item[0]['file']}}.jpg" style="height:400px; margin:20px; min-height:270px;">
     </figure>
-    <figure  class="col" style="height:600px; width:400px; min-width:400px; max-height:600px;3z">
-        <figcaption style="color: white" class="col">{{item[1]["title"]}}</figcaption>
+    <figure  class="col" style="height:600px; width:395px; max-width:395px; max-height:500px;border:2px solid grey">
+        <figcaption style="" class="col">{{item[1]["title"]}}</figcaption>
         <img src="static/img/{{item[1]['file']}}.jpg" style="height:400px; margin:20px; min-height:270px;">
     </figure>
-        <figure  class="col" style="height:600px; width:400px; min-width:400px; max-height:600px;3z">
-        <figcaption style="color: white" class="col">{{item[2]["title"]}}</figcaption>
+        <figure  class="col" style="height:600px; width:400px; max-width:350px; max-height:500px;border:2px solid grey">
+        <figcaption style="" class="col">{{item[2]["title"]}}</figcaption>
         <img src="static/img/{{item[2]['file']}}.jpg" style="height:400px; margin:20px; min-height:270px;">
     </figure>
 

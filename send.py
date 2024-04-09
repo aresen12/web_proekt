@@ -1,6 +1,7 @@
 import telebot
+from token import TOKEN
 
-bot = telebot.TeleBot('5501257841:AAGAIs1QeXD1HsPCrBnNqlxGyEpO1t10oi8')
+bot = telebot.TeleBot(TOKEN)
 
 
 def get_text_messages(message):
