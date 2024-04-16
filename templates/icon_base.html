@@ -1,22 +1,20 @@
 {% extends "base.html" %}
 {% block content %}
 
-<div class="container_my" >
+<div class="container_my">
     <h2>Мои работы</h2>
-{% for item in icons %}
+    {% if current_user.is_authenticated and current_user.admin%}
+    <a href="api/add_work" class="btn btn-secondary">Добавить икону</a>
+    {% endif %}
+    {% for item in icons %}
     <div class="row" id="row">
-    <figure  class="col" style="height:600px; max-width:400px; min-width:400px; max-height:500px;border:2px solid grey">
-        <figcaption style="" class="col">{{item[0]["title"]}}</figcaption>
-        <img src="static/img/{{item[0]['file']}}.jpg" style="height:400px; margin:20px; min-height:270px;">
-    </figure>
-    <figure  class="col" style="height:600px; width:395px; max-width:395px; max-height:500px;border:2px solid grey">
-        <figcaption style="" class="col">{{item[1]["title"]}}</figcaption>
-        <img src="static/img/{{item[1]['file']}}.jpg" style="height:400px; margin:20px; min-height:270px;">
-    </figure>
-        <figure  class="col" style="height:600px; width:400px; max-width:350px; max-height:500px;border:2px solid grey">
-        <figcaption style="" class="col">{{item[2]["title"]}}</figcaption>
-        <img src="static/img/{{item[2]['file']}}.jpg" style="height:400px; margin:20px; min-height:270px;">
-    </figure>
+        {% for row in item %}
+        <figure class="col" style="height:600px; max-width:400px; min-width:400px; max-height:500px;">
+            <figcaption style="" class="col">{{row["title"]}}</figcaption>
+            <img class="scale" src="static/img/{{row['file']}}.jpg"
+                 style="height:400px; margin:20px; min-height:270px;">
+        </figure>
+        {% endfor %}
 
     </div>
     {% endfor %}

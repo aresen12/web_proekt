@@ -1,10 +1,11 @@
 from flask import Flask, url_for, request, render_template, redirect
 import json
 from forms.login_form import LoginForm
-from flask_login import LoginManager, login_user
+from flask_login import LoginManager, login_user, login_required, logout_user
 from data import db_session
 from data.user import User
 from forms.register_form import RegisterForm
+from podsob import load_json_config
 
 app = Flask('213.87.139.94')
 
@@ -42,6 +43,13 @@ def login():
     return render_template('login.html', title='Авторизация', form=form)
 
 
+@app.route('/logout')
+@login_required
+def logout():
+    logout_user()
+    return redirect("/")
+
+
 @app.route('/register', methods=['GET', 'POST'])
 def reqister():
     form = RegisterForm()
@@ -61,7 +69,6 @@ def reqister():
 
         )
         user.password = form.password.data
-        # user.set_password(form.password.data)
         db_sess.add(user)
         db_sess.commit()
         return redirect('/login')
@@ -98,7 +105,29 @@ def form():
         return render_template("ansver.html")
 
 
+@app.route("/api/add_work", methods=["GET", "POST"])
+def add_work():
+    if request.method == 'POST':
+        f = request.files['file']
+        csv_file = open("config.csv", encoding='utf-8')
+        data = csv_file.readlines()
+        file_out = open(f"static/img/icon{len(data)}.jpg", mode='wb')
+        file_out.write(f.read())
+        file_out.close()
+        data.append(f"\nicon{len(data)};{request.form['about']};")
+        csv_file.close()
+        csv_file = open("config.csv", encoding='utf-8', mode="w", newline="")
+        for _ in data:
+            csv_file.writelines(_)
+        csv_file.close()
+        load_json_config()
+        return render_template("ansver_work.html")
+    if request.method == 'GET':
+        return render_template('ad_work.html')
+
+
 if __name__ == "__main__":
     db_session.global_init('db/icon_master.db')
     db_sess = db_session.create_session()
     app.run(host='192.168.43.170')
+print(hash('raketa675'))

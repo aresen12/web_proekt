@@ -2,29 +2,44 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <link href="static/css/style.css" rel="stylesheet">
+    <link href="static/css/style.css" rel="stylesheet" type="text/css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <title>Иконы</title>
+    <style>
+   .scale {
+    transition: 1s; /* Время эффекта */
+   }
+   .scale:hover {
+    transform: scale(1.2); /* Увеличиваем масштаб */
+   }
+   @media print {
+    html, body {
+       display: none;  /* hide whole page */
+    }
+}
+  </style>
+
 </head>
 <body>
 <header>
     <nav class="navbar navbar-dark bg-dark" style="color:white; background:black;">
-        <a class="navbar-brand" href="main.html">Главная</a>
-        <a class="navbar-brand" href="icon.html">Иконы</a>
-        <a class="navbar-brand" href="restv.html">Реставрация</a>
-        <a class="navbar-brand" href="available.html">В наличии</a>
+        <a class="navbar-brand" href="http://192.168.43.170:5000/main.html">Главная</a>
+        <a class="navbar-brand" href="http://192.168.43.170:5000/icon.html">Иконы</a>
+        <a class="navbar-brand" href="http://192.168.43.170:5000/restv.html">Реставрация</a>
+        <a class="navbar-brand" href="http://192.168.43.170:5000/available.html">В наличии</a>
         <a class="navbar-brand" href="forms.html">Заказать</a>
+        {% if current_user.is_authenticated %}
+        <a class="navbar-brand" href="/logout">{{ current_user.name }}</a>
+        {% else %}
         <p>
             <a class="btn btn-primary " href="/register">Зарегистрироваться</a>
             <a class="btn btn-success" href="/login">Войти</a>
         </p>
+        {% endif %}
     </nav>
 </header>
-<main role="main"   style="max-width:100%;width:100%;
-    display: flex;
-	align-items: center;
-    justify-content: center; ">
+<main role="main"   style="max-width:100%;width:100%;">
     {% block content %}{% endblock %}
 </main>
 </body>
