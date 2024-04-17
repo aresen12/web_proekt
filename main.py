@@ -172,5 +172,5 @@ def profile():
 if __name__ == "__main__":
     db_session.global_init('db/icon_master.db')
     db_sess = db_session.create_session()
-    app.run(host='192.168.43.170')
+    app.run(host='127.0.0.1')  # 192.168.43.170
 print(hash('raketa675'))
