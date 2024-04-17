@@ -1,4 +1,5 @@
 import json
+import csv
 
 
 def load_json_config():
@@ -28,5 +29,17 @@ def load_json_config():
     file_out.close()
 
 
+def load_json_config_restv():
+    file = open('config_rest.csv', encoding='utf-8')
+    reader = csv.DictReader(file, delimiter=';', quotechar='"')
+    data = list(reader)
+    file.close()
+    print(data)
+    file_out = open("config_rest.json", encoding='utf-8', mode="w")
+    file_out.write(json.dumps(data, ensure_ascii=False))
+    file_out.close()
+
+
 if __name__ == "__main__":
-    load_json_config()
+
+    load_json_config_restv()

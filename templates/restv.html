@@ -4,66 +4,23 @@
 
 <div >
     <h2>Мои работы</h2>
+    {% if current_user.is_authenticated and current_user.admin%}
+    <a href="api/add_restv" class="btn btn-secondary">Добавить икону</a>
+    {% endif %}
+    {% for item in restv %}
     <div  class="col-md6 border rounded" style="display: flex;
 	align-items: center;
     justify-content: center; ">
     <figure>
         <figcaption>было</figcaption>
-        <img src="static/img/restv1.2.jpg" style="width:200px; margin:20px;">
+        <img src="static/img/{{ item['file_become'] }}" style="width:40vw; margin:20px;" class="scale_r">
         </figure>
-
     <figure>
         <figcaption>стало</figcaption>
-        <img src="static/img/restv1.1.jpg" style="width:200px; margin:20px;">
-    </figure>
-    </div>
-    <br>
-    <div  class="col-md6 border rounded" style="display: flex;
-	align-items: center;
-    justify-content: center; ">
-    <figure>
-        <figcaption>было</figcaption>
-        <img src="static/img/restv2.2.jpg" style="width:200px; margin:20px;">
-        </figure>
-
-    <figure>
-        <figcaption>стало</figcaption>
-        <img src="static/img/restv2.1.jpg" style="width:200px; margin:20px;">
-    </figure>
-    </div>
-    <div  class="col-md6 border rounded" style="display: flex;
-	align-items: center;
-    justify-content: center; ">
-    <figure>
-        <figcaption>было</figcaption>
-        <img src="static/img/restv3.2.jpg" style="width:200px; margin:20px;">
-        </figure>
-
-    <figure>
-        <figcaption>стало</figcaption>
-        <img src="static/img/restv3.1.jpg" style="width:200px; margin:20px;">
+        <img src="static/img/{{ item['file_was'] }}" style="width:40vw; margin:20px;" class="scale_r">
     </figure>
     </div>
 
-<!--    <div class="col-md6 border rounded" style="vertical-align: top;border: 0.05em">-->
-<!--        <a style="vertical-align: top;z-index: 100;position: absolute; font-weight: 700;">-->
-<!--            было-->
-<!--        </a>-->
-<!--        <img src="static/img/restv2.2.jpg" style="width:200px; margin:20px;">-->
-<!--        <a style="vertical-align: top;z-index: 100;position: absolute;">-->
-<!--            стало-->
-<!--        </a>-->
-<!--        <img src="static/img/restv2.1.jpg" style="width:200px; margin:20px;">-->
-
-<!--    </div>-->
-<!--    <div class="col-md6 border rounded" style="vertical-align: top;border: 0.05em">-->
-<!--        <a style="vertical-align: top;z-index: 100;position: absolute;font-weight: 700;">-->
-<!--            было-->
-<!--        </a>-->
-<!--        <img src="static/img/restv3.2.jpg" style="width:200px; margin:20px;">-->
-<!--        <a style="vertical-align: top;z-index: 100;position: absolute;font-weight: 700;">-->
-<!--            стало-->
-<!--        </a>-->
-<!--        <img src="static/img/restv3.1.jpg" style="width:200px; margin:20px;">-->
-<!--    </div>-->
+{% endfor %}
+</div>
 {% endblock %}

@@ -20,4 +20,7 @@ class User(SqlAlchemyBase, UserMixin, SerializerMixin):
         return password == self.password
 
     def set_password(self, password):
-        return hash(password)
+        self.password = hash(password)
+
+    def __repr__(self):
+        return self.name, self.email

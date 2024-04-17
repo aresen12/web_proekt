@@ -1,13 +1,7 @@
 {% extends "base.html" %}
 {% block content %}
-
-<form method="post" style="font-size:170%;" class="form">
-    <label for="about">Имя</label>
-    <input type="text" class="form-control" id="name" aria-describedby="emailHelp" placeholder="Введите своё имя"
-           name="name">
-    <label for="about">email</label>
-    <input style="font-size:120%;" type="email" class="form-control" id="email" aria-describedby="emailHelp"
-           placeholder="Введите адрес почты" name="email">
+{% if current_user.is_authenticated %}
+        <form method="post" style="font-size:170%;" class="form">
     <div class="form-group">
         <label for="about">Сообщение</label>
         <textarea class="form-control" id="about" rows="3" name="about"></textarea>
@@ -15,4 +9,10 @@
     </div>
     <button type="submit" class="btn btn-primary">Отправить</button>
 </form>
+        {% else %}
+        <p>
+            Эта страница доступна только авторизированным пользователям
+        </p>
+        {% endif %}
+
 {% endblock %}

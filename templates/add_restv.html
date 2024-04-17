@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block content %}
+   <h1>Загрузим файл</h1>
+    <form method="post" enctype="multipart/form-data" class="form" id="login_form" style="margin-left: auto;
+    margin-right: auto;
+    max-width: 450px;
+    background-color: #ffcc00;
+    border: 1px solid gray;
+  border-radius: 5px;
+    padding: 10px;
+    margin-top: 10%">
+        <div class="form-group">
+            <label for="was">Выберите файл(было)</label>
+            <input type="file" class="form-control-file" id="was" name="file">
+        </div>
+        <div class="form-group">
+            <label for="come">Выберите файл(стало)</label>
+            <input type="file" class="form-control-file" id="come" name="file2">
+        </div>
+        <button type="submit" class="btn btn-primary">Отправить</button>
+    </form>
+{% endblock %}
