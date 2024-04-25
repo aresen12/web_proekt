@@ -65,3 +65,42 @@ border-radius: 5px;
    .scale_r:hover {
     transform: scale(1.5); /* Увеличиваем масштаб */
    }
+.zak {background: #fffaad;
+border-radius: 5px;
+ color:black;
+ margin:10px;width:10vw;text-align:center;}
+.zatemnenie {
+        background: black;
+        width: 100%;
+        height: 1000%;
+        position: absolute;
+        top: 0;
+        left: 0;
+        display: none;
+      }
+      .okno { text-align: center;
+        padding: 15px;
+        border-radius: 10px;
+        color: #0000cc;
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        margin: auto;
+        background: black;
+        width: 60vw;
+      }
+      .zatemnenie:target {display: block;}
+      .close {
+        display: inline-block;
+        border: 1px solid #0000cc;
+        color: #0000cc;
+        padding: 0 12px;
+        margin: 10px;
+        text-decoration: none;
+        background: black;
+        font-size: 14pt;
+        cursor:pointer;
+      }
+      .close:hover {background: #e6e6ff;}

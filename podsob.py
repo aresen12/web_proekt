@@ -11,8 +11,8 @@ def load_json_config():
     file_out = open("config.json", encoding='utf-8', mode="w")
     for i in range(0, len(data), 3):
         try:
-            sl.append([{"title": data[i + 1].split(";")[1], "file": data[i + 1].split(";")[0]},
-                       {"title": data[i].split(";")[1], "file": data[i].split(";")[0]},
+            sl.append([{"title": data[i].split(";")[1], "file": data[i].split(";")[0]},
+                {"title": data[i + 1].split(";")[1], "file": data[i + 1].split(";")[0]},
                        {"title": data[i + 2].split(";")[1], "file": data[i + 2].split(";")[0]}])
         except IndexError:
             try:
@@ -41,5 +41,5 @@ def load_json_config_restv():
 
 
 if __name__ == "__main__":
-
+    load_json_config()
     load_json_config_restv()

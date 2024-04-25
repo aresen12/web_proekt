@@ -1,12 +1,13 @@
-from flask import Flask, url_for, request, render_template, redirect, session
+from flask import Flask, request, render_template, redirect
 import json
 from forms.login_form import LoginForm
-from flask_login import LoginManager, login_user, login_required, logout_user
+from flask_login import LoginManager, login_user, login_required, logout_user, current_user
 from data import db_session
 from data.user import User
 from forms.register_form import RegisterForm
 from podsob import load_json_config, load_json_config_restv
-from sqlalchemy import literal_column
+from forms.edit_email_form import EditEmailName
+from forms.password_form import EditPassword
 
 app = Flask('213.87.139.94')
 
@@ -25,7 +26,6 @@ def load_user(user_id):
 @app.route("/")
 @app.route("/main")
 def main_2():
-    print(request.remote_addr)
     return render_template("main.html")
 
 
@@ -64,12 +64,10 @@ def reqister():
             return render_template('register.html', title='Регистрация',
                                    form=form,
                                    message="Такой пользователь уже есть")
-        user = User(
-            name=form.name.data,
-            email=form.email.data,
-
-        )
-        user.password = form.password.data
+        user = User()
+        user.name = form.name.data,
+        user.email = form.email.data,
+        user.set_password(form.password.data)
         db_sess.add(user)
         db_sess.commit()
         return redirect('/login')
@@ -99,22 +97,67 @@ def available():
 
 
 @app.route("/forms", methods=["GET", "POST"])
-def form():
+def form_st():
     if request.method == 'GET':
-        db_sess = db_session.create_session()
-
-        user = db_sess.query(literal_column("current_user"))
-        print(literal_column("current_user").table)
         return render_template("forms.html")
     elif request.method == "POST":
         from send import get_text_messages
-        print(request.remote_addr)
-        db_sess = db_session.create_session()
-        db_sess.query(literal_column("current_user"))
-
         get_text_messages(
-            f'заказ\nИмя: \nemail: \n сообщение: {request.form["about"]}')
+            f'заказ\nИмя: {current_user.name} \nemail: {current_user.email}\n сообщение: {request.form["about"]}')
         return render_template("ansver.html")
+
+
+@app.route("/edit/email", methods=["GET", "POST"])
+def edit_email():
+    form = EditEmailName()
+    db_sess = db_session.create_session()
+    if form.validate_on_submit():
+        user = db_sess.query(User).filter(User.id == current_user.id).first()
+        user.email = form.email.data
+        user.name = form.name.data
+        db_sess.commit()
+        return redirect('/profile')
+    else:
+        form.email.data = current_user.email
+        form.name.data = current_user.name
+    return render_template("edit_name.html", form=form)
+
+
+@app.route("/edit/name", methods=["GET", "POST"])
+def edit_name():
+    form = EditEmailName()
+    db_sess = db_session.create_session()
+    if form.validate_on_submit():
+        user = db_sess.query(User).filter(User.id == current_user.id).first()
+        user.email = form.email.data
+        user.name = form.name.data
+        db_sess.commit()
+        return redirect('/profile')
+    else:
+        form.email.data = current_user.email
+        form.name.data = current_user.name
+    return render_template("edit_name.html", form=form)
+
+
+@app.route("/edit/password", methods=["GET", "POST"])
+def edit_password():
+    form = EditPassword()
+    db_sess = db_session.create_session()
+    if form.validate_on_submit():
+        if form.password.data != form.password_again.data:
+            return render_template('edit_password.html', title='Регистрация',
+                                   form=form,
+                                   message="Пароли не совпадают")
+    if form.validate_on_submit():
+        user = db_sess.query(User).filter(User.id == current_user.id).first()
+        if user.password != form.st_password.data:
+            return render_template("edit_password.html", form=form, message="Неправильный старый пароль")
+        if user is None:
+            return redirect("/login")
+        user.password = form.password.data
+        db_sess.commit()
+        return redirect('/profile')
+    return render_template("edit_password.html", form=form)
 
 
 @app.route("/api/add_work", methods=["GET", "POST"])
@@ -143,7 +186,6 @@ def add_retsv():
     if request.method == 'POST':
         f = request.files['file']
         f2 = request.files['file2']
-
         csv_file = open("config_rest.csv", encoding='utf-8')
         data = csv_file.readlines()
         file_out = open(f"static/img/restv{len(data)}.1.jpg", mode='wb')
@@ -171,6 +213,11 @@ def profile():
 
 if __name__ == "__main__":
     db_session.global_init('db/icon_master.db')
-    db_sess = db_session.create_session()
     app.run(host='127.0.0.1')  # 192.168.43.170
-print(hash('raketa675'))
+    salt = "5gz"
+    password = "raketa675"
+    import hashlib
+
+    data_base_password = password + salt
+    hashed = hashlib.md5(data_base_password.encode())
+    password = hashed.hexdigest()
