@@ -1,4 +1,4 @@
-from flask import Flask, request, render_template, redirect
+from flask import Flask, request, render_template, redirect, abort
 import json
 from forms.login_form import LoginForm
 from flask_login import LoginManager, login_user, login_required, logout_user, current_user
@@ -162,6 +162,8 @@ def edit_password():
 
 @app.route("/api/add_work", methods=["GET", "POST"])
 def add_work():
+    if not current_user.admin:
+        abort(404)
     if request.method == 'POST':
         f = request.files['file']
         csv_file = open("config.csv", encoding='utf-8')
@@ -183,6 +185,8 @@ def add_work():
 
 @app.route("/api/add_restv", methods=["GET", "POST"])
 def add_retsv():
+    if not current_user.admin:
+        abort(404)
     if request.method == 'POST':
         f = request.files['file']
         f2 = request.files['file2']
