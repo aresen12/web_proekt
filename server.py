@@ -9,7 +9,7 @@ from podsob import load_json_config, load_json_config_restv
 from forms.edit_email_form import EditEmailName
 from forms.password_form import EditPassword
 
-app = Flask(__main__)
+app = Flask(__name__)
 
 app.config['SECRET_KEY'] = 'yandexlyceum_secret_key'
 
