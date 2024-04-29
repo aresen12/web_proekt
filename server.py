@@ -65,8 +65,8 @@ def reqister():
                                    form=form,
                                    message="Такой пользователь уже есть")
         user = User()
-        user.name = form.name.data,
-        user.email = form.email.data,
+        user.name = form.name.data
+        user.email = form.email.data
         user.set_password(form.password.data)
         db_sess.add(user)
         db_sess.commit()
@@ -150,11 +150,11 @@ def edit_password():
                                    message="Пароли не совпадают")
     if form.validate_on_submit():
         user = db_sess.query(User).filter(User.id == current_user.id).first()
-        if user.password != form.st_password.data:
+        if not user.check_password(form.st_password.data):
             return render_template("edit_password.html", form=form, message="Неправильный старый пароль")
         if user is None:
             return redirect("/login")
-        user.password = form.password.data
+        user.set_password(form.password.data)
         db_sess.commit()
         return redirect('/profile')
     return render_template("edit_password.html", form=form)
