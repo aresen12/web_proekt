@@ -4,15 +4,18 @@ from forms.login_form import LoginForm
 from flask_login import LoginManager, login_user, login_required, logout_user, current_user
 from data import db_session
 from data.user import User
+from data.message import Message
 from forms.register_form import RegisterForm
 from podsob import load_json_config, load_json_config_restv
 from forms.edit_email_form import EditEmailName
 from forms.password_form import EditPassword
+import hashlib
+import csv
 
 app = Flask(__name__)
 
 app.config['SECRET_KEY'] = 'yandexlyceum_secret_key'
-
+hash_password = '7cb8fa366d774761d198d3dc6244740c'
 login_manager = LoginManager()
 login_manager.init_app(app)
 
@@ -26,7 +29,7 @@ def load_user(user_id):
 @app.route("/")
 @app.route("/main")
 def main_2():
-    return render_template("main.html")
+    return render_template("main.html", title='главная')
 
 
 @app.route('/login', methods=['GET', 'POST'])
@@ -49,6 +52,31 @@ def login():
 def logout():
     logout_user()
     return redirect("/")
+
+
+@app.route('/api')
+def api():
+    return redirect('/')
+
+
+@app.route('/carousel/<icon_name>')
+def carousel(icon_name):
+    file = open("config.csv", encoding="utf-8")
+    reader = csv.DictReader(file, delimiter=';', quotechar='"')
+    data = list(reader)
+    index = 0
+    n = len(data)
+    for i in range(n):
+        if data[i]['file'] == icon_name:
+            index = i
+    left = index - 1
+    if index + 1 < n:
+        right = index + 1
+    else:
+        right = 0
+    file.close()
+    return render_template("carousel.html", title='Иконы', name=icon_name, left=data[left]['file'],
+                           right=data[right]['file'])
 
 
 @app.route('/register', methods=['GET', 'POST'])
@@ -79,7 +107,7 @@ def icon():
     with open('config.json', encoding='utf-8') as file:
         news_list = json.loads(file.read())
         print(news_list)
-        return render_template('icon_base.html', icons=news_list)
+        return render_template('icon_base.html', title='иконы', icons=news_list)
 
 
 @app.route("/restv")
@@ -88,23 +116,89 @@ def restv():
     work_list = json.loads(file.read())
     print(work_list)
     file.close()
-    return render_template('restv.html', restv=work_list)
+    return render_template('restv.html', restv=work_list, title='реставрация')
 
 
 @app.route("/available")
 def available():
-    return render_template("available.html")
+    file = open("available.csv", encoding='utf-8')
+    reader = csv.DictReader(file, delimiter=';', quotechar='"')
+    data = list(reader)
+    print(data)
+    file.close()
+    return render_template("available.html", title='В наличии', icons=data)
 
 
 @app.route("/forms", methods=["GET", "POST"])
 def form_st():
     if request.method == 'GET':
-        return render_template("forms.html")
+        if not current_user.is_authenticated:
+            return render_template("forms.html", title='Заказать')
+        if current_user.is_authenticated and current_user.admin:
+            db_sess = db_session.create_session()
+            emails = db_sess.query(User.email).all()
+            print(emails)
+            return render_template("form_admin.html", title='ответить', emails=emails)
+        db_sess = db_session.create_session()
+        message = db_sess.query(Message).filter(Message.email_recipient == current_user.email).all()
+        mes2 = db_sess.query(Message).filter(Message.email_sender == current_user.email).all()
+        message = message + mes2
+        message.sort(key=lambda x: x.time)
+        return render_template("forms.html", title='Заказать', message=message, email_recipient="evnomiya@yandex.ru")
     elif request.method == "POST":
-        from send import get_text_messages
-        get_text_messages(
-            f'заказ\nИмя: {current_user.name} \nemail: {current_user.email}\n сообщение: {request.form["about"]}')
-        return render_template("ansver.html")
+        if request.form["about"].strip() == "":
+            return redirect('/forms')
+        db_sess = db_session.create_session()
+        mess = Message()
+        db_sess.query(User).filter(User.email == current_user.email)
+        mess.name_sender = current_user.name
+        mess.email_sender = current_user.email
+        mess.message = request.form["about"]
+        mess.email_recipient = "evnomiya@yandex.ru"
+        db_sess.add(mess)
+        db_sess.commit()
+        if current_user.email != "evnomiya@yandex.ru":
+            from send import get_text_messages
+            log = get_text_messages(
+                f'заказ\nИмя: {current_user.name} \nemail: {current_user.email}\n сообщение: {request.form["about"]}')
+            print(log)
+        return redirect('/forms')
+
+
+@app.route("/forms/<email_recipient>", methods=["GET", "POST"])
+def form_admin(email_recipient):
+    if request.method == 'GET':
+        if current_user.admin:
+            db_sess = db_session.create_session()
+            emails = db_sess.query(User.email).all()
+            print(emails)
+            message = db_sess.query(Message).filter(Message.email_recipient == current_user.email).all()
+            mes2 = db_sess.query(Message).filter(Message.email_sender == current_user.email).all()
+            message = message + mes2
+            # print(request.form["about"])
+            print(message)
+            message.sort(key=lambda x: x.time)
+            return render_template("form_admin.html", title='ответить', emails=emails, message=message,
+                                   email_recipient=email_recipient)
+        return render_template("forms.html", title='Заказать')
+    elif request.method == "POST":
+        db_sess = db_session.create_session()
+        if request.form["about"].strip() == "":
+            return redirect('/forms')
+        mess = Message()
+        db_sess.query(User).filter(User.email == current_user.email)
+        mess.name_sender = current_user.name
+        mess.email_sender = current_user.email
+        mess.message = request.form["about"]
+        mess.email_recipient = email_recipient
+        db_sess.add(mess)
+        db_sess.commit()
+        if current_user.email != "evnomiya@yandex.ru":
+            from send import get_text_messages
+            log = get_text_messages(
+                f'заказ\nИмя: {current_user.name} \nemail: {current_user.email}\n сообщение: {request.form["about"]}')
+            print(log)
+        return redirect(f'/forms/{email_recipient}')
 
 
 @app.route("/edit/email", methods=["GET", "POST"])
@@ -120,7 +214,7 @@ def edit_email():
     else:
         form.email.data = current_user.email
         form.name.data = current_user.name
-    return render_template("edit_name.html", form=form)
+    return render_template("edit_name.html", form=form, title='Профиль')
 
 
 @app.route("/edit/name", methods=["GET", "POST"])
@@ -136,7 +230,7 @@ def edit_name():
     else:
         form.email.data = current_user.email
         form.name.data = current_user.name
-    return render_template("edit_name.html", form=form)
+    return render_template("edit_name.html", form=form, title='Профиль')
 
 
 @app.route("/edit/password", methods=["GET", "POST"])
@@ -145,19 +239,20 @@ def edit_password():
     db_sess = db_session.create_session()
     if form.validate_on_submit():
         if form.password.data != form.password_again.data:
-            return render_template('edit_password.html', title='Регистрация',
+            return render_template('edit_password.html', title='Изменение пароля',
                                    form=form,
                                    message="Пароли не совпадают")
     if form.validate_on_submit():
         user = db_sess.query(User).filter(User.id == current_user.id).first()
         if not user.check_password(form.st_password.data):
-            return render_template("edit_password.html", form=form, message="Неправильный старый пароль")
+            return render_template("edit_password.html", form=form, title='профиль',
+                                   message="Неправильный старый пароль")
         if user is None:
             return redirect("/login")
         user.set_password(form.password.data)
         db_sess.commit()
         return redirect('/profile')
-    return render_template("edit_password.html", form=form)
+    return render_template("edit_password.html", form=form, title='Изменение пароля')
 
 
 @app.route("/api/add_work", methods=["GET", "POST"])
@@ -212,16 +307,29 @@ def add_retsv():
 
 @app.route("/profile")
 def profile():
-    return render_template("profile.html")
+    db_sess = db_session.create_session()
+    message = db_sess.query(Message).filter(
+        Message.email_recipient == current_user.email).all()
+    mes2 = db_sess.query(Message).filter(Message.email_sender == current_user.email).all()
+    message = message + mes2
+    print(message)
+    return render_template("profile.html", title='Профиль', message=message)
+
+
+@app.route("/api/add_admin/<password>")
+def add_admin(password):
+    salt = "5gz"
+    data_base_password = password + salt
+    hashed = hashlib.md5(data_base_password.encode())
+    password = hashed.hexdigest()
+    if password == hash_password and current_user.is_authenticated:
+        db_sess = db_session.create_session()
+        user = db_sess.query(User).filter(User.id == current_user.id).first()
+        user.admin = 1
+        db_sess.commit()
+        return {"log": 'True'}
 
 
 if __name__ == "__main__":
     db_session.global_init('db/icon_master.db')
-    app.run(host='127.0.0.1')  # 192.168.43.170
-    salt = "5gz"
-    password = "raketa675"
-    import hashlib
-
-    data_base_password = password + salt
-    hashed = hashlib.md5(data_base_password.encode())
-    password = hashed.hexdigest()
+    app.run(host='192.168.43.170', debug=True)  # 192.168.43.170

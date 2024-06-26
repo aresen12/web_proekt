@@ -8,7 +8,20 @@
     {% endif %}
   <h1>Иконы</h1>
 </div>
-<div ><img src="static/img/icon1.jpg" style="width:200px; margin:20px;"></div>
+<div class="icon_container" style="margin-right: 5vw;">
+    <h2 class="h_ic">Мои работы</h2>
+    {% for item in icons %}
+    <figure style="display:inline-block;margin:2vw;" class="block_img">
+        <figcaption>{{item["title"]}}</figcaption>
+        <a href="/carousel/{{item['img']}}">
+            <img class="scale" src="static/img/{{item['img']}}.jpg">
+                        <a class="zak" href="/zak_got">заказать</a>
+        </a>
+    </figure>
+
+    {% endfor %}
+
+</div>
 <div style="width:100%;
   display: flex;
   justify-content: center;">
@@ -16,5 +29,15 @@
   {% if current_user.is_authenticated and current_user.admin%}
     <a href="api/add_got_min" class="btn btn-secondary">Добавить икону</a>
     {% endif %}
+    {% for item in mini %}
+    <figure style="display:inline-block;margin:2vw;" class="block_img">
+        <figcaption>{{item["title"]}}</figcaption>
+        <a href="/carousel/{{item['img']}}">
+            <img class="scale" src="static/img/{{item['img']}}.jpg">
+                        <a class="zak" href="/zak_got">заказать</a>
+        </a>
+    </figure>
+
+    {% endfor %}
 </div>
 {% endblock %}

@@ -5,4 +5,8 @@ bot = telebot.TeleBot(TOKEN)
 
 
 def get_text_messages(message):
-    bot.send_message(chat_id=chat_id, text=message)
+    try:
+        bot.send_message(chat_id=chat_id, text=message)
+        return True
+    except Exception:
+        return False

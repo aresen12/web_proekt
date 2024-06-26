@@ -1,6 +1,14 @@
 {% extends "base.html" %}
 {% block content %}
-{% if current_user.is_authenticated %}
+<div class="dropdown">
+    <button class="dropbtn">Выбрать email</button>
+    <div class="dropdown-content">
+        {% for email in emails %}
+        <a href="/forms/{{ email[0] }}">{{email[0]}}</a>
+        {% endfor %}
+    </div>
+</div>
+
 <div class="mess">
     {%for mess in message %}
     {% if (current_user.email == mess.email_sender and email_recipient == mess.email_recipient) or current_user.email == mess.email_recipient and email_recipient == mess.email_sender%}
@@ -10,7 +18,9 @@
     </div>
     {% else %}
     <div class="alert alert-info" role="alert" style="position:relative;left:10vw;width:20vw;">
+
         {{mess.message}}
+
     </div>
     {% endif %}
     {% endif %}
@@ -20,12 +30,8 @@
     <div class="form-group">
         <label for="about">Сообщение</label>
         <textarea class="form-control" id="about" rows="3" name="about"></textarea>
+
     </div>
     <button type="submit" class="btn btn-primary" id="submit_btn">Отправить</button>
 </form>
-        {% else %}
-        <p>
-            Эта страница доступна только авторизированным пользователям
-        </p>
-        {% endif %}
 {% endblock %}

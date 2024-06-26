@@ -3,6 +3,5 @@ flask_login == 0.6.3
 sqlalchemy == 2.0.28
 flask_wtf
 wtforms
-PyTelegramBotAPI == 4.12.0
+pyTelegramBotAPI
 sqlalchemy_serializer
-hashlib
