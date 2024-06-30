@@ -1,3 +1,4 @@
+import os
 from flask import Flask, request, render_template, redirect, abort
 import json
 from forms.login_form import LoginForm
@@ -5,6 +6,7 @@ from flask_login import LoginManager, login_user, login_required, logout_user, c
 from data import db_session
 from data.user import User
 from data.message import Message
+from data.product import Product
 from forms.register_form import RegisterForm
 from podsob import load_json_config, load_json_config_restv
 from forms.edit_email_form import EditEmailName
@@ -121,12 +123,32 @@ def restv():
 
 @app.route("/available")
 def available():
-    file = open("available.csv", encoding='utf-8')
-    reader = csv.DictReader(file, delimiter=';', quotechar='"')
-    data = list(reader)
-    print(data)
-    file.close()
+    db_sess = db_session.create_session()
+    data = db_sess.query(Product).all()
     return render_template("available.html", title='В наличии', icons=data)
+
+
+@app.route("/product/<name>", methods=['GET'])
+def product_watch(name):
+    db_sess = db_session.create_session()
+    item = db_sess.query(Product).filter(Product.main_img == name).first()
+    item: Product
+    if not item.img_list is None:
+        list_img = item.img_list.split()
+    else:
+        list_img = []
+    return render_template("product.html", item=item, title=item.name, list_img=list_img)
+
+
+@app.route("/del_got/<icon_>", methods=["DELETE", 'GET'])
+def del_got(icon_):
+    if current_user.is_authenticated and current_user.admin:
+        db_sess = db_session.create_session()
+        pr = db_sess.query(Product).filter(Product.main_img == icon_).first()
+        db_sess.delete(pr)
+        db_sess.commit()
+        return redirect("/available")
+    abort(404)
 
 
 @app.route("/forms", methods=["GET", "POST"])
@@ -276,6 +298,39 @@ def add_work():
         return render_template("ansver_work.html")
     if request.method == 'GET':
         return render_template('ad_work.html')
+
+
+@app.route("/api/add_got_icon/<int:i>", methods=["GET", "POST"])
+def add_work_got(i):
+    if not current_user.admin:
+        abort(404)
+    if request.method == 'POST':
+        db_sess = db_session.create_session()
+        pr = Product()
+        list_img = ''
+        for j in range(i):
+            f = request.files[f'file{j}']
+            os.chdir('static/img')
+            dd = len(os.listdir())
+            os.chdir("..")
+            os.chdir("..")
+            file_out = open(f"static/img/product{dd}.jpg", mode='wb')
+            file_out.write(f.read())
+            file_out.close()
+            if j == 0:
+                pr.main_img = f'product{dd}'
+                list_img += f'product{dd}'
+            else:
+                list_img += f' product{dd}'
+        pr.about = request.form['about']
+        pr.img_list = list_img
+        pr.prise = request.form['prise']
+        pr.name = request.form['name']
+        db_sess.add(pr)
+        db_sess.commit()
+        return render_template("ansver_work.html")
+    if request.method == 'GET':
+        return render_template('add_product.html', title="Добавление продукта", i=i)
 
 
 @app.route("/api/add_restv", methods=["GET", "POST"])

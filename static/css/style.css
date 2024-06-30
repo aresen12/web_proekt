@@ -78,15 +78,17 @@ border-radius: 5px;
    .scale_r:hover {
     transform: scale(1.5); /* Увеличиваем масштаб */
    }
-.zak {background: #fffaad;
+.zak {background: #2b6cb0;
 border-radius: 5px;
- color:black;
+ color:white;
  text-decoration: none;
  margin:auto;
  position:relative;
  text-align:center;
- margin:10px;width:10vw;text-align:center;}
+ margin:10px;width:15vw;text-align:center;}
 .logo {text-align:center; }
+.prise {margin:14px;}
+.name-product {font-weight:bold;}
 .zatemnenie {
         background: black;
         width: 100%;
@@ -177,3 +179,9 @@ border-radius: 5px;
 
 /* Изменение цвета фона кнопки раскрывающегося списка при отображении содержимого раскрывающегося списка */
 .dropdown:hover .dropbtn {background-color: #3e8e41;}
+.container-product {display: flex;
+	align-items: center;
+    justify-content: center; font-size: 20pt;}
+.about-product {position:fixed;display:inline-block;width:30vw;
+height: 50vh; text-align:start;border: solid 1px black; top:20vh;}
+.product-img {display:inline-block; width:30vw; margin:3vw}

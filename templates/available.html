@@ -4,7 +4,7 @@
   display: flex;
   justify-content: center;">
   {% if current_user.is_authenticated and current_user.admin%}
-    <a href="api/add_got_icon" class="btn btn-secondary">Добавить икону</a>
+    <a href="api/add_got_icon/1" class="btn btn-secondary">Добавить икону</a>
     {% endif %}
   <h1>Иконы</h1>
 </div>
@@ -12,10 +12,13 @@
     <h2 class="h_ic">Мои работы</h2>
     {% for item in icons %}
     <figure style="display:inline-block;margin:2vw;" class="block_img">
-        <figcaption>{{item["title"]}}</figcaption>
-        <a href="/carousel/{{item['img']}}">
-            <img class="scale" src="static/img/{{item['img']}}.jpg">
-                        <a class="zak" href="/zak_got">заказать</a>
+        <figcaption>{{item.name}}</figcaption>
+        <a href="/product/{{item.main_img}}">
+            <img class="scale" src="static/img/{{item.main_img}}.jpg">
+            <a class="zak" href="/zak_got">заказать</a>
+            {% if current_user.is_authenticated and current_user.admin %}
+               <a methods="DELETE" class="btn btn-secondary" href="/del_got/{{item.main_img}}">удалить</a>
+            {% endif %}
         </a>
     </figure>
 
@@ -37,7 +40,6 @@
                         <a class="zak" href="/zak_got">заказать</a>
         </a>
     </figure>
-
     {% endfor %}
 </div>
 {% endblock %}
