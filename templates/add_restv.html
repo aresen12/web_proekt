@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% block content %}
-   <h1>Загрузим файл</h1>
-    <form method="post" enctype="multipart/form-data" class="form" id="login_form" style="margin-left: auto;
+<h1>Добавление работы(Реставрация)</h1>
+<form method="post" enctype="multipart/form-data" class="form" id="login_form" style="margin-left: auto;
     margin-right: auto;
     max-width: 450px;
     background-color: #ffcc00;
@@ -9,14 +9,19 @@
   border-radius: 5px;
     padding: 10px;
     margin-top: 10%">
-        <div class="form-group">
-            <label for="was">Выберите файл(было)</label>
-            <input type="file" class="form-control-file" id="was" name="file">
-        </div>
-        <div class="form-group">
-            <label for="come">Выберите файл(стало)</label>
-            <input type="file" class="form-control-file" id="come" name="file2">
-        </div>
-        <button type="submit" class="btn btn-primary">Отправить</button>
-    </form>
+    <label>выберете количество фото</label>
+    <a class="btn btn-secondary" href="/api/add_restv/{{i + 1 }}">+</a> {{i}} <a class="btn btn-secondary"
+                                                                                    href="/api/add_restv/{{i - 1 }}">-</a>
+    {% for _ in range(i) %}
+    <div class="form-group">
+        <label for="was{{_}}">Выберите файл(было)</label>
+        <input type="file" class="form-control-file" id="was{{_}}" name="was{{_}}">
+    </div>
+    {% endfor %}
+    <div class="form-group">
+        <label for="come">Выберите файл(стало)</label>
+        <input type="file" class="form-control-file" id="come" name="become">
+    </div>
+    <button type="submit" class="btn btn-primary">Отправить</button>
+</form>
 {% endblock %}

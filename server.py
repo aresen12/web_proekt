@@ -7,6 +7,7 @@ from data import db_session
 from data.user import User
 from data.message import Message
 from data.product import Product
+from data.rest import Rest
 from forms.register_form import RegisterForm
 from podsob import load_json_config, load_json_config_restv
 from forms.edit_email_form import EditEmailName
@@ -114,10 +115,11 @@ def icon():
 
 @app.route("/restv")
 def restv():
-    file = open('config_rest.json', encoding='utf-8')
-    work_list = json.loads(file.read())
-    print(work_list)
-    file.close()
+    db_sess = db_session.create_session()
+    work_list = db_sess.query(Rest).all()
+    for _ in range(len(work_list)):
+        work_list[_].img_list = work_list[_].img_list.split()
+        print(work_list[_].img_list)
     return render_template('restv.html', restv=work_list, title='реставрация')
 
 
@@ -149,6 +151,17 @@ def del_got(icon_):
         db_sess.commit()
         return redirect("/available")
     abort(404)
+
+
+@app.route("/api/forms/evnomiya@yandex.ru<s>", methods=["GET", "POST"])
+def form_api(email_recipient, s):
+    if current_user.is_authenticated:
+        db_sess = db_session.create_session()
+        message = db_sess.query(Message).filter(Message.email_recipient == current_user.email).all()
+        mes2 = db_sess.query(Message).filter(Message.email_sender == current_user.email).all()
+        message = message + mes2
+        message.sort(key=lambda x: x.time)
+        return message
 
 
 @app.route("/forms", methods=["GET", "POST"])
@@ -333,31 +346,35 @@ def add_work_got(i):
         return render_template('add_product.html', title="Добавление продукта", i=i)
 
 
-@app.route("/api/add_restv", methods=["GET", "POST"])
-def add_retsv():
+@app.route("/api/add_restv/<int:i>", methods=["GET", "POST"])
+def add_retsv(i):
     if not current_user.admin:
         abort(404)
     if request.method == 'POST':
-        f = request.files['file']
-        f2 = request.files['file2']
-        csv_file = open("config_rest.csv", encoding='utf-8')
-        data = csv_file.readlines()
-        file_out = open(f"static/img/restv{len(data)}.1.jpg", mode='wb')
-        file_out.write(f.read())
-        file_out.close()
-        file_out = open(f"static/img/restv{len(data)}.2.jpg", mode='wb')
+        db_sess = db_session.create_session()
+        data = db_sess.query(Rest).all()
+        rest = Rest()
+        cnt_was = len(data)
+        list_img = []
+        for j in range(i):
+            f = request.files[f'was{j}']
+            file_out = open(f"static/img/restv{cnt_was + j + 1}.1.jpg", mode='wb')
+            file_out.write(f.read())
+            file_out.close()
+            list_img.append(f"restv{cnt_was + j + 1}.1.jpg")
+        rest.img_list = " ".join(list_img)
+        rest.main_img = f"restv{cnt_was + 1}.1.jpg"
+        rest.become = f"restv{cnt_was}.2.jpg"
+        f2 = request.files['become']
+        file_out = open(f"static/img/restv{cnt_was}.2.jpg", mode='wb')
         file_out.write(f2.read())
         file_out.close()
-        data.append(f"\nrestv{len(data)}.2.jpg;restv{len(data)}.1.jpg")
-        csv_file.close()
-        csv_file = open("config_rest.csv", encoding='utf-8', mode="w", newline="")
-        for _ in data:
-            csv_file.writelines(_)
-        csv_file.close()
-        load_json_config_restv()
-        return render_template("add_restv.html")
+        db_sess.add(rest)
+        db_sess.commit()
+        # load_json_config_restv()
+        return render_template("add_restv.html", i=i)
     if request.method == 'GET':
-        return render_template('add_restv.html')
+        return render_template('add_restv.html', i=i)
 
 
 @app.route("/profile")
