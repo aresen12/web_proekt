@@ -89,15 +89,17 @@ border-radius: 5px;
 .logo {text-align:center; }
 .prise {margin:14px;}
 .name-product {font-weight:bold;}
+.close-btn {position:absolute;text-decoration: none;}
 .zatemnenie {
         background: black;
         width: 100%;
-
         position: absolute;
         top: 0;
         left: 0;
         display: block;
       }
+      .dop-black {background: black;
+      height:100vh;}
       .okno { text-align: center;
         padding: 15px;
         border-radius: 10px;
@@ -113,10 +115,12 @@ border-radius: 5px;
       }
       .win {width: 60vw;text-align: center;display: flex;margin: auto;}
           .button {position: relative;
-      top: 60vh;
+      top: 50vh;
       background: gray;
       padding: 10px;
+      max-height: 60px;
       height: 10vh;
+
       margin: 10px;
       color: white;
       text-decoration: none;
