@@ -404,4 +404,4 @@ def add_admin(password):
 
 if __name__ == "__main__":
     db_session.global_init('db/icon_master.db')
-    app.run(host='192.168.43.170', debug=True)  # 192.168.43.170
+    app.run(debug=True)  # 192.168.43.170
