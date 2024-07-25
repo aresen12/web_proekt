@@ -364,9 +364,9 @@ def add_retsv(i):
             list_img.append(f"restv{cnt_was + j + 1}.1.jpg")
         rest.img_list = " ".join(list_img)
         rest.main_img = f"restv{cnt_was + 1}.1.jpg"
-        rest.become = f"restv{cnt_was}.2.jpg"
+        rest.become = f"restv{cnt_was + 1}.2.jpg"
         f2 = request.files['become']
-        file_out = open(f"static/img/restv{cnt_was}.2.jpg", mode='wb')
+        file_out = open(f"static/img/restv{cnt_was + 1}.2.jpg", mode='wb')
         file_out.write(f2.read())
         file_out.close()
         db_sess.add(rest)
