@@ -24,12 +24,45 @@ margin:50px
     padding: 10px;
     margin-top: 10vh;}
     #submit_btn {position:relative; left:85vw; bottom: 10vh;}
-    .form-control {max-width:80vw}
-.container {max-width:100%;width:100%;}
-#row {display: right;margin-left: 45px}
-h2 {margin-left: 45px; margin-bottom: 100px;}
-#my_img {width: 25%; margin-left: 10%; margin-top:10%}
-#alert {width: 30%; margin:10px; margin-top:10%;font-size: 150%}
+
+
+.form-control {
+max-width:80vw;
+}
+
+
+.container {
+    max-width:100%;
+    width:100%;
+}
+
+
+#row {
+    display: right;
+    margin-left: 45px;}
+
+
+h2 {
+    margin-left: 45px;
+    margin-bottom: 100px;
+ }
+
+
+#my_img {
+    width: 25vw;
+    margin-left: 10%;
+    margin-top:10%;
+}
+
+
+#alert {
+    width: 30%;
+    margin:10px;
+    margin-top:10%;
+    font-size: 150%;
+ }
+
+
 #login_form {
     margin-left: auto;
     margin-right: auto;
@@ -39,30 +72,54 @@ h2 {margin-left: 45px; margin-bottom: 100px;}
     border-radius: 5px;
     padding: 10px;
 }
+
+
 .names {
-margin-left: auto;
+    margin-left: auto;
     margin-right: auto;
     max-width: 450px;
     border: 1px solid gray;
     border-radius: 5px;
     padding: 10px;
     width: 427px;
-    margin-top: 20px;}
-.edit {background: #007fff;
-border-radius: 5px;
- color:white;
- text-decoration:none;
- margin:10px;}
-.pers {margin-left: auto;
+    margin-top: 20px;
+}
+
+
+.edit {
+    background: #007fff;
+    border-radius: 5px;
+    color:white;
+    text-decoration:none;
+    margin:10px;
+}
+
+
+.pers {
+    margin-left: auto;
     margin-right: auto;
     padding: 10px;
-    max-width: 500px;font-size: 20px;}
-.icon_container {font-size: 2vw;}
+    max-width: 500px;
+    font-size: 20px;
+}
 
-   .scale {width: 25vw;max-width:25vw;
+
+.icon_container {
+font-size: 2vw;
+}
+
+.scale {
+width: 25vw;max-width:25vw;
     transition: 1s; /* Время эффекта */
    }
-    .block_img {width: 25vw;max-width:25vw;}
+
+
+.block_img {
+    width: 25vw;
+    max-width:25vw;
+}
+
+
 @media screen and (width < 981px) {
     .scale {max-width:70vw; width: 70vw; margin:5vw;}
     .block_img {width: 70vw;max-width:70vw;}
@@ -78,16 +135,34 @@ border-radius: 5px;
    .scale_r:hover {
     transform: scale(1.5); /* Увеличиваем масштаб */
    }
-.zak {background: #2b6cb0;
-border-radius: 5px;
- color:white;
- text-decoration: none;
- margin:auto;
- position:relative;
- text-align:center;
- margin:10px;width:15vw;text-align:center;}
-.logo {text-align:center; }
-.prise {margin:14px;}
+
+.zak {
+    background: #2b6cb0;
+    border-radius: 5px;
+    color:white;
+    text-decoration: none;
+    margin:auto;
+    position:relative;
+    text-align:center;
+    margin:10px;
+    width:15vw;
+    text-align:center;
+}
+
+
+.logo {
+    position: relative;
+    top:3vh;
+    margin:2vh;
+    text-align:center;
+}
+
+
+.prise {
+    margin:14px;
+}
+
+
 .name-product {font-weight:bold;}
 .close-btn {position:absolute;text-decoration: none;}
 .zatemnenie {
@@ -98,9 +173,14 @@ border-radius: 5px;
         left: 0;
         display: block;
       }
-      .dop-black {background: black;
-      height:100vh;}
-      .okno { text-align: center;
+
+
+.dop-black {
+    background: black;
+    height:100vh;
+}
+.okno {
+    text-align: center;
         padding: 15px;
         border-radius: 10px;
         color: #0000cc;
@@ -113,20 +193,46 @@ border-radius: 5px;
         background: black;
         width: 60vw;
       }
-      .win {width: 60vw;text-align: center;display: flex;margin: auto;}
-          .button {position: relative;
+
+
+.login-h1 {
+position:relative;
+    top:3vh;
+    width: 50vw;
+    left:40vw;
+}
+
+
+.login-form {
+
+    margin:auto;
+    position:relative;
+    top:5vh;
+    width:70vw;
+}
+
+
+.win {
+    width: 60vw;
+    text-align: center;
+    display: flex;
+    margin: auto;
+}
+
+
+.button {
+position: relative;
       top: 50vh;
       background: gray;
       padding: 10px;
       max-height: 60px;
       height: 10vh;
-
       margin: 10px;
       color: white;
       text-decoration: none;
-      }
-      .zatemnenie:target {display: block;}
-      .close {
+}
+
+.close {
       display: flex;
         text-align:right;
         width: 5vw;
@@ -139,9 +245,19 @@ border-radius: 5px;
         font-size: 20pt;
         cursor:pointer;
         left: 90vw;
-      }
-      .mess {position:relative;width: 40vw;left:5vw;height:50vh;overflow-y: auto }
-      .close:hover {background: none;}
+}
+
+
+.mess {
+    position:relative;
+    width: 40vw;
+    left:5vw;
+    height:50vh;
+    overflow-y: auto;
+}
+.close:hover {
+    background: none;
+}
       /* Кнопка выпадающего списка */
 .dropbtn {
   background-color: #4CAF50;
@@ -176,16 +292,63 @@ border-radius: 5px;
 }
 
 /* Изменение цвета выпадающих ссылок при наведении курсора */
-.dropdown-content a:hover {background-color: #ddd;}
+.dropdown-content a:hover {
+background-color: #ddd;
+}
 
 /* Показать выпадающее меню при наведении курсора */
-.dropdown:hover .dropdown-content {display: block;}
+.dropdown:hover .dropdown-content {
+display: block;
+}
 
 /* Изменение цвета фона кнопки раскрывающегося списка при отображении содержимого раскрывающегося списка */
-.dropdown:hover .dropbtn {background-color: #3e8e41;}
-.container-product {display: flex;
+.dropdown:hover .dropbtn {
+background-color: #3e8e41;
+}
+
+
+.container-product {
+    display: flex;
 	align-items: center;
-    justify-content: center; font-size: 20pt;}
-.about-product {position:fixed;display:inline-block;width:30vw;
-height: 50vh; text-align:start;border: solid 1px black; top:20vh;}
-.product-img {display:inline-block; width:30vw; margin:3vw}
+    justify-content: center; font-size: 20pt;
+    }
+
+
+.about-product {
+    position:fixed;
+    display:inline-block;
+    width:30vw;
+    height: 50vh;
+    text-align:start;
+    border: solid 1px black;
+    top:20vh;
+    }
+
+
+.product-img {
+    display:inline-block;
+    width:30vw;
+    margin:3vw
+    }
+
+
+.car-img {
+width:60vw;
+}
+
+
+@media (pointer:none), (pointer:coarse) {
+
+.car-img {
+position: relative;
+top:20vh;
+width:70vw;
+}
+
+#my_img {
+width:40vw;
+}
+.login-p {
+font-size:20pt;
+}
+}

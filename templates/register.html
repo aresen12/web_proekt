@@ -2,10 +2,10 @@
 
 {% block content %}
 <div>
-<h1>Регистрация</h1>
-<form action="" method="post">
+<h1 class="login-h1">Регистрация</h1>
+<form class="login-form" action="" method="post">
     {{ form.hidden_tag() }}
-    <p>
+    <p class="login-p">
         {{ form.email.label }}<br>
         {{ form.email(class="form-control", type="email") }}<br>
         {% for error in form.email.errors %}
@@ -14,7 +14,7 @@
             </p>
         {% endfor %}
     </p>
-    <p>
+    <p class="login-p">
         {{ form.password.label }}<br>
         {{ form.password(class="form-control", type="password") }}<br>
         {% for error in form.password.errors %}
@@ -23,7 +23,7 @@
             </p>
         {% endfor %}
     </p>
-    <p>
+    <p class="login-p">
         {{ form.password_again.label }}<br>
         {{ form.password_again(class="form-control", type="password") }}<br>
         {% for error in form.password_again.errors %}
@@ -32,7 +32,7 @@
             </p>
         {% endfor %}
     </p>
-    <p>
+    <p class="login-p">
         {{ form.name.label }}<br>
         {{ form.name(class="form-control") }}<br>
         {% for error in form.name.errors %}
