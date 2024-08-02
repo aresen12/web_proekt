@@ -5,25 +5,46 @@ margin:50px
 .title {background: white;}
 
 
-.form {margin-left: auto;
+.form {
+margin-left: auto;
     margin-right: auto;
     max-width: 40vw;
     background-color: #ffcc00;
     border: 1px solid gray;
-  border-radius: 5px;
+    border-radius: 5px;
     padding: 10px;
-    margin-top: 10%;}
-    .form2 {position:fixed;
-    margin-left: auto;
-    margin-right: auto;
+    margin-top: 10%;
+}
 
-    width:100vw;
+
+.mess {
+    position:relative;
+    width: 40vw;
+    left:55vw;
+    height:69vh;
+    overflow-y: auto;
+    margin:0;
+}
+.mess-admin {
+    position:relative;
+    width: 40vw;
+    left:5vw;
+    height:53vh;
+    overflow-y: auto;
+    margin:0;
+}
+
+.form2 {
+    position:absolute;
+    width:98vw;
+    top:87vh;
     background-color: #ffcc00;
     border: 1px solid gray;
-  border-radius: 5px;
+    border-radius: 5px;
     padding: 10px;
-    margin-top: 10vh;}
-    #submit_btn {position:relative; left:85vw; bottom: 10vh;}
+    padding-down:0;
+}
+.submit_btn {display:inline-block; margin:10px;}
 
 
 .form-control {
@@ -48,10 +69,20 @@ h2 {
  }
 
 
-#my_img {
+.message-other {
+    width:20vw;
+}
+
+
+.my-message {
+    position:relative;
+    left:10vw;
+    width:20vw;
+}
+
+.my_img {
     width: 25vw;
-    margin-left: 10%;
-    margin-top:10%;
+
 }
 
 
@@ -103,8 +134,12 @@ h2 {
     font-size: 20px;
 }
 
-
+.form-container {
+display:flex;
+justify-content:center;}
 .icon_container {
+position:relative;
+left:5vw;
 font-size: 2vw;
 }
 
@@ -118,18 +153,12 @@ width: 25vw;max-width:25vw;
     width: 25vw;
     max-width:25vw;
 }
-
-
-@media screen and (width < 981px) {
-    .scale {max-width:70vw; width: 70vw; margin:5vw;}
-    .block_img {width: 70vw;max-width:70vw;}
-    .icon_container {font-size: 5vw; margin: 5vw;}
-    .h_ic {font-size: 5vw;}
-    }
-   .scale:hover {
+.scale:hover {
     transform: scale(1.2); /* Увеличиваем масштаб */
    }
-   .scale_r {
+
+
+.scale_r {
     transition: 1s; /* Время эффекта */
    }
    .scale_r:hover {
@@ -193,8 +222,6 @@ width: 25vw;max-width:25vw;
         background: black;
         width: 60vw;
       }
-
-
 .login-h1 {
 position:relative;
     top:3vh;
@@ -217,19 +244,20 @@ position:relative;
     text-align: center;
     display: flex;
     margin: auto;
+    justify-content:center;
 }
 
 
 .button {
 position: relative;
       top: 50vh;
-      background: gray;
       padding: 10px;
       max-height: 60px;
       height: 10vh;
       margin: 10px;
       color: white;
       text-decoration: none;
+      font-size:50pt;
 }
 
 .close {
@@ -248,13 +276,7 @@ position: relative;
 }
 
 
-.mess {
-    position:relative;
-    width: 40vw;
-    left:5vw;
-    height:50vh;
-    overflow-y: auto;
-}
+
 .close:hover {
     background: none;
 }
@@ -310,7 +332,8 @@ background-color: #3e8e41;
 .container-product {
     display: flex;
 	align-items: center;
-    justify-content: center; font-size: 20pt;
+    justify-content: center;
+     font-size: 20pt;
     }
 
 
@@ -330,25 +353,106 @@ background-color: #3e8e41;
     width:30vw;
     margin:3vw
     }
-
+.time-mess {font-size:6pt;float:left;}
 
 .car-img {
 width:60vw;
 }
-
-
+.pack {
+    position:relative;
+    margin-left:auto;
+    margin-right:auto;
+    width:80vw;
+    margin-top: 10vh;
+}
+.date {
+    margin-left:auto;
+    margin-right:auto;
+    color:gray;
+    display:flex;
+    justify-content:center;
+    }
+.car-ogr {
+    margin-right:10vw;
+    margin-left:10vw;
+    height:100vh;
+    }
+.info-btn {border:0;background:none;}
 @media (pointer:none), (pointer:coarse) {
-
-.car-img {
-position: relative;
-top:20vh;
-width:70vw;
+    .car-ogr{width:40vw;}
+    .carousel {
+        width:40vw;
+    }
+    .my_img {
+        width:40vw;
+    }
+    .login-p {
+        font-size:20pt;
+    }
 }
 
-#my_img {
-width:40vw;
+
+@media screen and (width > 981px) {
+    .car-ogr {
+        width:25vw;
+        position:relative;
+        top:10vh;
+        }
+
+
 }
-.login-p {
-font-size:20pt;
+@media screen and (width < 981px) {
+.time-mess {font-size:12pt;}
+    .button {font-size:40pt;}
+    .car-ogr {
+        width:40vw;
+       height:40vh;
+        }
+    .mess {width:90vw;left:5vw;}
+    .car-img {
+        max-width:90vw;
+        width:85vw;
+        position: relative;
+        top:20vh;
+
+
+        }
+
+    .scale {
+        max-width:70vw;
+        width: 70vw;
+        margin:5vw;
+        }
+
+    .my-message {
+    font-size: 20pt;
+        width:60vw;
+
+        }
+
+
+    .message-other {
+    font-size: 20pt;
+        width:60vw;
+        }
+     .mess-admin {
+     position:relative;
+        left:10vw;
+        width:90vw;
+     }
+    .block_img {width: 70vw;max-width:70vw;}
+
+
+    .icon_container {
+        font-size: 5vw;
+        margin: 5vw;
+    }
+
+
+    .h_ic {
+        font-size: 5vw;
+    }
 }
-}
+
+
+

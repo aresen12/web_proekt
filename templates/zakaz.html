@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div>
+<h1 class="login-h1">Выбор доставки</h1>
+<form class="zak-form" action="" method="post">
+    {{ form.hidden_tag() }}
+   <p class="login-p">
+        {{ form.to_location.label }}<br>
+        {{ form.to_location(class="form-control") }}<br>
+        {% for error in form.to_location.errors %}
+            <p class="alert alert-danger" role="alert">
+                {{ error }}
+            </p>
+        {% endfor %}
+    </p>
+    <div class="form-group">
+            <label >Укажите перевозчика</label>
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="sex" id="male" value="male" checked>
+                <label class="form-check-label" for="male">
+                    CDEK
+                </label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="sex" id="female" value="female">
+                <label class="form-check-label" for="female">
+                    Почта России
+                </label>
+            </div>
+        </div>
+    <p class="login-p">{{ form.submit(type="submit", class="btn btn-primary") }}</p>
+    {{message}}
+</form>
+</div>
+{% endblock %}

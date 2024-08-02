@@ -34,16 +34,20 @@
 <h3>Сообщения</h3>
 <div class="mess">
     {%for mess in message %}
-    <div class="alert alert-info" role="alert">
-  От: {{mess.email_sender}}
-        <br>
-  Кому: {{mess.email_recipient}}
-        <br>
+    {% if (current_user.email == mess.email_sender and email_recipient == mess.email_recipient) or current_user.email == mess.email_recipient and email_recipient == mess.email_sender%}
+    {% if current_user.email == mess.email_sender%}
+    <div class="alert alert-success" role="alert" style="width:20vw;">
         {{mess.message}}
-
-</div>
+    </div>
+    {% else %}
+    <div class="alert alert-info" role="alert" style="position:relative;left:10vw;width:20vw;">
+        {{mess.message}}
+    </div>
+    {% endif %}
+    {% endif %}
     {% endfor %}
 </div>
+
 <h3>заказы</h3>
 <div>
 

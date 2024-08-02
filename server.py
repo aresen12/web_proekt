@@ -8,6 +8,7 @@ from data.user import User
 from data.message import Message
 from data.product import Product
 from data.rest import Rest
+from forms.zak_form import ZakForm
 from forms.register_form import RegisterForm
 from podsob import load_json_config, load_json_config_restv
 from forms.edit_email_form import EditEmailName
@@ -179,7 +180,12 @@ def form_st():
         mes2 = db_sess.query(Message).filter(Message.email_sender == current_user.email).all()
         message = message + mes2
         message.sort(key=lambda x: x.time)
-        return render_template("forms.html", title='Заказать', message=message, email_recipient="evnomiya@yandex.ru")
+        for mess in message:
+            mess:Message
+            if mess.email_recipient == current_user.email:
+                mess.read = True
+        db_sess.commit()
+        return render_template("forms.html", title='Заказать',date="no date",  message=message, email_recipient="evnomiya@yandex.ru")
     elif request.method == "POST":
         if request.form["about"].strip() == "":
             return redirect('/forms')
@@ -377,6 +383,12 @@ def add_retsv(i):
         return render_template('add_restv.html', i=i)
 
 
+@app.route("/zak_got", methods=['GET', 'POST'])
+def zak_got():
+    form = ZakForm()
+    return render_template("zakaz.html", form=form)
+
+
 @app.route("/profile")
 def profile():
     db_sess = db_session.create_session()
@@ -385,7 +397,7 @@ def profile():
     mes2 = db_sess.query(Message).filter(Message.email_sender == current_user.email).all()
     message = message + mes2
     print(message)
-    return render_template("profile.html", title='Профиль', message=message)
+    return render_template("profile.html", title='Профиль', message=message, email_recipient="evnomiya@yandex.ru")
 
 
 @app.route("/api/add_admin/<password>")
@@ -404,4 +416,4 @@ def add_admin(password):
 
 if __name__ == "__main__":
     db_session.global_init('db/icon_master.db')
-    app.run(debug=True)  # 192.168.43.170
+    app.run(host="192.168.0.103", debug=True)  # 192.168.43.170

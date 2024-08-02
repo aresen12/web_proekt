@@ -17,5 +17,10 @@ class Message(SqlAlchemyBase, UserMixin, SerializerMixin):
     email_recipient = sqlalchemy.Column(sqlalchemy.Integer, nullable=True)
 
     def __repr__(self):
-        return f"{self.message}"
+        return f"{self.message} {self.time}"
 
+    def get_time(self):
+        return str(self.time).split()[1]
+
+    def get_date(self):
+        return str(self.time).split()[0]
