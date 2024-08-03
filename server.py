@@ -181,11 +181,11 @@ def form_st():
         message = message + mes2
         message.sort(key=lambda x: x.time)
         for mess in message:
-            mess:Message
             if mess.email_recipient == current_user.email:
                 mess.read = True
         db_sess.commit()
-        return render_template("forms.html", title='Заказать',date="no date",  message=message, email_recipient="evnomiya@yandex.ru")
+        return render_template("forms.html", title='Заказать', date="no date", message=message,
+                               email_recipient="evnomiya@yandex.ru")
     elif request.method == "POST":
         if request.form["about"].strip() == "":
             return redirect('/forms')
@@ -219,6 +219,10 @@ def form_admin(email_recipient):
             # print(request.form["about"])
             print(message)
             message.sort(key=lambda x: x.time)
+            for mess in message:
+                if mess.email_recipient == current_user.email:
+                    mess.read = True
+            db_sess.commit()
             return render_template("form_admin.html", title='ответить', emails=emails, message=message,
                                    email_recipient=email_recipient)
         return render_template("forms.html", title='Заказать')
@@ -389,6 +393,16 @@ def zak_got():
     return render_template("zakaz.html", form=form)
 
 
+@app.route("/yandex_afa034f971137099.html")
+def ver():
+    return """<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    </head>
+    <body>Verification: afa034f971137099</body>
+</html>"""
+
+
 @app.route("/profile")
 def profile():
     db_sess = db_session.create_session()
@@ -397,7 +411,8 @@ def profile():
     mes2 = db_sess.query(Message).filter(Message.email_sender == current_user.email).all()
     message = message + mes2
     print(message)
-    return render_template("profile.html", title='Профиль', message=message, email_recipient="evnomiya@yandex.ru")
+    return render_template("profile.html", zakaz="not", title='Профиль', message=message,
+                           email_recipient="evnomiya@yandex.ru")
 
 
 @app.route("/api/add_admin/<password>")

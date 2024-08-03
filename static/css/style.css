@@ -87,10 +87,11 @@ h2 {
 
 
 #alert {
-    width: 30%;
-    margin:10px;
-    margin-top:10%;
-    font-size: 150%;
+    width: 36vw;
+    margin-top:9vh;
+    margin-right:10px;
+    margin-left:10px;
+    font-size: 18pt;
  }
 
 
@@ -372,10 +373,18 @@ width:60vw;
     display:flex;
     justify-content:center;
     }
+.main-car {
+display: flex;
+	align-items: center;
+    justify-content: center;}
+.zak-con {width:60vw;margin-right:auto;margin-left:auto;}
 .car-ogr {
-    margin-right:10vw;
-    margin-left:10vw;
-    height:100vh;
+margin-top: 10vh;
+        overflow: hidden;
+    margin-right:5vw;
+    margin-left:5vw;
+    margin-bottom:10px;
+
     }
 .info-btn {border:0;background:none;}
 @media (pointer:none), (pointer:coarse) {
@@ -393,6 +402,7 @@ width:60vw;
 
 
 @media screen and (width > 981px) {
+     .main-car {height:120vh;}
     .car-ogr {
         width:25vw;
         position:relative;
@@ -405,8 +415,10 @@ width:60vw;
 .time-mess {font-size:12pt;}
     .button {font-size:40pt;}
     .car-ogr {
+    top: 10vh;
+        overflow: hide;
         width:40vw;
-       height:40vh;
+
         }
     .mess {width:90vw;left:5vw;}
     .car-img {
