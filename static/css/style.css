@@ -25,20 +25,23 @@ margin-left: auto;
     overflow-y: auto;
     margin:0;
 }
+.background-img {position:fixed ;
+width:68vw;
+    height:80vh;}
 .mess-admin {
     position:relative;
-    width: 40vw;
-    left:5vw;
-    height:53vh;
-    overflow-y: auto;
+    width: 70vw;
+    left:30vw;
+    height:80vh;
+    overflow-y: scroll;
     margin:0;
 }
 
 .form2 {
-    position:absolute;
+    position:fixed;
     width:98vw;
-    top:87vh;
-    background-color: #ffcc00;
+    bottom:0vh;
+    background-color: #cfe2ff;
     border: 1px solid gray;
     border-radius: 5px;
     padding: 10px;
@@ -73,7 +76,7 @@ h2 {
     width:20vw;
 }
 
-
+.mess-img {width:18vw;margin-right:0.5vw;}
 .my-message {
     position:relative;
     left:10vw;
@@ -305,7 +308,15 @@ position: relative;
   box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
   z-index: 1;
 }
-
+.content-email {
+display:block;
+position:absolute;
+    width:30vw;
+  background-color: #f1f1f1;
+  min-width: 160px;
+ }
+ .a-email { color:black;text-decoration:none;}
+ .email {border-radius: 10px;height:7vh;margin:2px;}
 /* Ссылки внутри выпадающего списка */
 .dropdown-content a {
   color: black;
@@ -354,7 +365,7 @@ background-color: #3e8e41;
     width:30vw;
     margin:3vw
     }
-.time-mess {font-size:6pt;float:left;}
+.time-mess {font-size:10pt;float:left;}
 
 .car-img {
 width:60vw;
@@ -408,11 +419,25 @@ margin-top: 10vh;
         position:relative;
         top:10vh;
         }
+    .message-other {
+position:relative;
+left:30vw;
+}
+
+.my-message {
+    position:relative;
+    left:40vw;
+}
 
 
 }
 @media screen and (width < 981px) {
-.time-mess {font-size:12pt;}
+a-email { font-size:30pt;}
+.background-img {position:fixed ;
+width:95vw;
+    height:80vh;}
+    .message-other {position:relative; left:3vw;}
+    .time-mess {font-size:16pt;}
     .button {font-size:40pt;}
     .car-ogr {
     top: 10vh;
@@ -449,7 +474,7 @@ margin-top: 10vh;
         }
      .mess-admin {
      position:relative;
-        left:10vw;
+        left:15vw;
         width:90vw;
      }
     .block_img {width: 70vw;max-width:70vw;}

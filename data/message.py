@@ -15,6 +15,7 @@ class Message(SqlAlchemyBase, UserMixin, SerializerMixin):
     read = sqlalchemy.Column(sqlalchemy.Boolean, default=False,)
     time = sqlalchemy.Column(sqlalchemy.String, nullable=True, default=datetime.datetime.now)
     email_recipient = sqlalchemy.Column(sqlalchemy.Integer, nullable=True)
+    img = sqlalchemy.Column(sqlalchemy.String, nullable=True)
 
     def __repr__(self):
         return f"{self.message} {self.time}"

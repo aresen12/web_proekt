@@ -48,6 +48,9 @@
     {% endif %}
     {% if current_user.email == mess.email_sender%}
     <div class="alert alert-success my-message" role="alert">
+        {% if none != mess.img %}
+        <img class="mess-img" src="/static/img/{{mess.img}}">
+        {% endif %}
         <p>
             {{mess.message}}
         </p>
@@ -64,6 +67,9 @@
     </div>
     {% else %}
     <div class="alert alert-info message-other" role="alert">
+        {% if none != mess.img %}
+        <img class="mess-img" src="/static/img/{{mess.img}}">
+        {% endif %}
         <p>
             {{mess.message}}
         </p>
@@ -74,7 +80,7 @@
     {% endfor %}
 </div>
 
-<form method="post" style="font-size:170%;" class="form2">
+<form method="post" style="font-size:170%;" class="form2" enctype="multipart/form-data">
     <div class="form-container">
         <textarea class="form-control" id="about" rows="1" name="about"></textarea>
         <button type="submit" class="btn btn-primary submit_btn">
@@ -87,7 +93,7 @@
                         <path d="m144.407 507.882a116.583 116.583 0 0 1 -82.436-199.018l205.329-205.329a83.054 83.054 0 0 1 117.457 117.457l-181.621 181.622a16 16 0 0 1 -22.628-22.627l181.622-181.623a51.054 51.054 0 1 0 -72.2-72.2l-205.33 205.328a84.581 84.581 0 1 0 119.615 119.616l213.367-213.366a118.109 118.109 0 1 0 -167.032-167.03l-189.658 189.658a16 16 0 0 1 -22.627-22.627l189.658-189.659c58.528-58.527 153.76-58.526 212.285 0a150.109 150.109 0 0 1 0 212.286l-213.366 213.365a115.815 115.815 0 0 1 -82.435 34.147z"/>
                     </g>
                 </svg>
-                <input id="inputTag" type="file"/>
+                <input name="img" id="inputTag" type="file"/>
 
                 <span id="imageName"></span>
             </label>

@@ -1,47 +1,89 @@
 {% extends "base.html" %}
 {% block content %}
-<div class="dropdown">
-    <button class="dropbtn">Выбрать email</button>
-    <div class="dropdown-content">
+<!--<div class="dropdown">-->
+<!--    <button class="dropbtn">Выбрать email</button>-->
+<!--    <div class="dropdown-content">-->
+<!--        {% for email in emails %}-->
+<!--        <a href="/forms/{{ email[0] }}">{{email[0]}}</a>-->
+<!--        {% endfor %}-->
+<!--    </div>-->
+<!--</div>-->
+<div>
+    <div class="content-email">
         {% for email in emails %}
-        <a href="/forms/{{ email[0] }}">{{email[0]}}</a>
+        <div class="email">
+            <a class="a-email" href="/forms/{{ email[0] }}">{{email[0]}}</a></div>
+        {% endfor %}
+    </div>
+    <style>
+      input[type="file"]{
+        display: none;
+      }
+
+      .file-label{
+        cursor:pointer;
+      }
+
+
+
+    </style>
+    {% set date = [] %}
+    <div class="mess-admin" id="mess">
+        <img src="/static/img/font.jpg" class="background-img">
+        {%for mess in message %}
+        {% if (current_user.email == mess.email_sender and email_recipient == mess.email_recipient) or
+        current_user.email ==
+        mess.email_recipient and email_recipient == mess.email_sender%}
+        {% if date == [] or (date != [] and mess.get_date() != date[-1]) %}
+        {% if date.append(mess.get_date()) %}{% endif %}
+        <p class="date">{{ date[-1] }}</p>
+        {% endif %}
+        {% if current_user.email == mess.email_sender%}
+        <div class="alert alert-success my-message" role="alert">
+            {% if none != mess.img %}
+            <a href="/watch/{{mess.img}}">
+            <img class="mess-img" src="/static/img/{{mess.img}}"></a>
+            {% endif %}
+            <p>
+                {{mess.message}}
+            </p>
+            <p class="time-mess">{{mess.get_time()}} {% if mess.read %}
+                <button type="button" class="info-btn " data-bs-toggle="tooltip" data-bs-placement="top"
+                        title="прочитано">
+                    ✓✓
+                </button>
+                {% else %}
+                <button type="button" class="info-btn" data-bs-toggle="tooltip" data-bs-placement="top"
+                        title="доставлено">
+                    ✓
+                </button>
+                {% endif %}
+            </p>
+        </div>
+        {% else %}
+        <div class="alert alert-info message-other" role="alert">
+            {% if none != mess.img %}
+            <a href="/watch/{{mess.img}}">
+            <img class="mess-img" src="/static/img/{{mess.img}}"></a>
+            {% endif %}
+            <p>
+                {{mess.message}}
+            </p>
+
+            <p class="time-mess">{{mess.get_time()}}</p>
+        </div>
+        {% endif %}
+        {% endif %}
         {% endfor %}
     </div>
 </div>
-
-{% set date = [] %}
-<div class="mess" id="mess">
-    {%for mess in message %}
-    {% if (current_user.email == mess.email_sender and email_recipient == mess.email_recipient) or current_user.email == mess.email_recipient and email_recipient == mess.email_sender%}
-    {% if date == [] or (date != [] and mess.get_date() != date[-1]) %}
-    {% if date.append(mess.get_date()) %}{% endif %}
-    <p class="date">{{ date[-1] }}</p>
-    {% endif %}
-    {% if current_user.email == mess.email_sender%}
-    <div class="alert alert-success my-message" role="alert">
-        <p>
-        {{mess.message}}
-        </p>
-        <p class="time-mess">{{mess.get_time()}} {% if mess.read %}<button type="button" class="info-btn " data-bs-toggle="tooltip" data-bs-placement="top" title="прочитано">✓✓</button>{% else %}<button type="button" class="info-btn" data-bs-toggle="tooltip" data-bs-placement="top" title="доставлено">✓</button>{% endif %}</p>
-    </div>
-    {% else %}
-    <div class="alert alert-info message-other" role="alert">
-        <p>
-        {{mess.message}}
-        </p>
-
-        <p class="time-mess">{{mess.get_time()}}</p>
-    </div>
-    {% endif %}
-    {% endif %}
-    {% endfor %}
-</div>
-
-<form method="post" style="font-size:170%;" class="form2">
+<form method="post" style="font-size:170%;" class="form2" enctype="multipart/form-data">
     <div class="form-container">
         <textarea class="form-control" id="about" rows="1" name="about"></textarea>
         <button type="submit" class="btn btn-primary submit_btn">
-            <svg width="30px" height="29px" version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 466.897 466.897" style="enable-background:new 0 0 466.897 466.897;" xml:space="preserve"><g><g><polygon style="fill:#010002;" points="374.105,73.807 203.974,318.03 203.974,432.042 259.801,358.275 410.505,466.897 441.012,0 25.885,189.672 143.823,274.681 "/></g></g></svg>
+            <svg width="30px" height="29px" version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg"
+                 xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 466.897 466.897"
+                 style="enable-background:new 0 0 466.897 466.897;" xml:space="preserve"><g><g><polygon style="fill:#010002;" points="374.105,73.807 203.974,318.03 203.974,432.042 259.801,358.275 410.505,466.897 441.012,0 25.885,189.672 143.823,274.681 "/></g></g></svg>
         </button>
         <div style="margin:0px;">
             <label class="file-label" for="inputTag">
@@ -50,7 +92,7 @@
                         <path d="m144.407 507.882a116.583 116.583 0 0 1 -82.436-199.018l205.329-205.329a83.054 83.054 0 0 1 117.457 117.457l-181.621 181.622a16 16 0 0 1 -22.628-22.627l181.622-181.623a51.054 51.054 0 1 0 -72.2-72.2l-205.33 205.328a84.581 84.581 0 1 0 119.615 119.616l213.367-213.366a118.109 118.109 0 1 0 -167.032-167.03l-189.658 189.658a16 16 0 0 1 -22.627-22.627l189.658-189.659c58.528-58.527 153.76-58.526 212.285 0a150.109 150.109 0 0 1 0 212.286l-213.366 213.365a115.815 115.815 0 0 1 -82.435 34.147z"/>
                     </g>
                 </svg>
-                <input id="inputTag" type="file"/>
+                <input name="img" id="inputTag" type="file"/>
 
                 <span id="imageName"></span>
             </label>
@@ -64,6 +106,8 @@
 
             imageName.innerText = inputImage.name;
         })
+
+
 
         </script>
     </div>

@@ -187,7 +187,10 @@ def form_st():
         return render_template("forms.html", title='Заказать', date="no date", message=message,
                                email_recipient="evnomiya@yandex.ru")
     elif request.method == "POST":
-        if request.form["about"].strip() == "":
+        print(str(
+            request.files["img"]))
+        if request.form["about"].strip() == "" and str(
+                request.files["img"]) == "<FileStorage: '' (application/octet-stream)>":
             return redirect('/forms')
         db_sess = db_session.create_session()
         mess = Message()
@@ -195,6 +198,16 @@ def form_st():
         mess.name_sender = current_user.name
         mess.email_sender = current_user.email
         mess.message = request.form["about"]
+        print(request.files["img"])
+        if str(request.files["img"]) != "<FileStorage: '' (application/octet-stream)>":
+            os.chdir('static/img')
+            dd = len(os.listdir())
+            os.chdir("..")
+            os.chdir("..")
+            file = open(f"static/img/{dd}.jpg", mode="wb")
+            file.write(request.files["img"].read())
+            file.close()
+            mess.img = f"{dd}.jpg"
         mess.email_recipient = "evnomiya@yandex.ru"
         db_sess.add(mess)
         db_sess.commit()
@@ -204,6 +217,11 @@ def form_st():
                 f'заказ\nИмя: {current_user.name} \nemail: {current_user.email}\n сообщение: {request.form["about"]}')
             print(log)
         return redirect('/forms')
+
+
+@app.route("/watch/<name>")
+def watch(name):
+    return render_template("watch_img.html", name=name)
 
 
 @app.route("/forms/<email_recipient>", methods=["GET", "POST"])
@@ -227,14 +245,27 @@ def form_admin(email_recipient):
                                    email_recipient=email_recipient)
         return render_template("forms.html", title='Заказать')
     elif request.method == "POST":
+        f = request.files["img"]
         db_sess = db_session.create_session()
-        if request.form["about"].strip() == "":
+        print("f == ''", f.read())
+        print(request.form["about"].strip() == "" and f.read() == "", request.form["about"].strip() == "",
+              f.read() == "")
+        if request.form["about"].strip() == "" and f.read() == b'':
             return redirect('/forms')
         mess = Message()
         db_sess.query(User).filter(User.email == current_user.email)
         mess.name_sender = current_user.name
         mess.email_sender = current_user.email
         mess.message = request.form["about"]
+        if f.read() != b'':
+            os.chdir('static/img')
+            dd = len(os.listdir())
+            os.chdir("..")
+            os.chdir("..")
+            file = open(f"static/img/{dd}.jpg", mode="wb")
+            file.write(f.read())
+            file.close()
+            mess.img = f"{dd}.jpg"
         mess.email_recipient = email_recipient
         db_sess.add(mess)
         db_sess.commit()
