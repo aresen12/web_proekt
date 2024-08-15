@@ -15,6 +15,7 @@ from forms.edit_email_form import EditEmailName
 from forms.password_form import EditPassword
 import hashlib
 import csv
+from ip_ import get_ip
 
 app = Flask(__name__)
 
@@ -462,4 +463,4 @@ def add_admin(password):
 
 if __name__ == "__main__":
     db_session.global_init('db/icon_master.db')
-    app.run(host="192.168.0.103", debug=True)  # 192.168.43.170
+    app.run(host=get_ip(), debug=True)  # 192.168.43.170
