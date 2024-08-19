@@ -82,7 +82,9 @@ def carousel(icon_name):
     return render_template("carousel.html", title='Иконы', name=icon_name, left=data[left]['file'],
                            right=data[right]['file'])
 
-
+@app.route("/test")
+def test():
+    return render_template("test.html")
 @app.route('/register', methods=['GET', 'POST'])
 def reqister():
     form = RegisterForm()
@@ -154,16 +156,17 @@ def del_got(icon_):
     abort(404)
 
 
-@app.route("/api/forms/evnomiya@yandex.ru<s>", methods=["GET", "POST"])
-def form_api(email_recipient, s):
+@app.route("/api/forms/<re>", methods=["GET", "POST"])
+def form_api(re):
     if current_user.is_authenticated:
         db_sess = db_session.create_session()
         message = db_sess.query(Message).filter(Message.email_recipient == current_user.email).all()
         mes2 = db_sess.query(Message).filter(Message.email_sender == current_user.email).all()
         message = message + mes2
         message.sort(key=lambda x: x.time)
-        return message
-
+        print(message)
+        return render_template("t.html", message=message, email_recipient=re)
+    return render_template("t.html")
 
 @app.route("/forms", methods=["GET", "POST"])
 def form_st():
@@ -174,7 +177,7 @@ def form_st():
             db_sess = db_session.create_session()
             emails = db_sess.query(User.email).all()
             print(emails)
-            return render_template("form_admin.html", title='ответить', emails=emails)
+            return render_template("form_admin.html", title='ответить', emails=emails, email_recipient=0)
         db_sess = db_session.create_session()
         message = db_sess.query(Message).filter(Message.email_recipient == current_user.email).all()
         mes2 = db_sess.query(Message).filter(Message.email_sender == current_user.email).all()
@@ -247,9 +250,9 @@ def form_admin(email_recipient):
     elif request.method == "POST":
         f = request.files["img"]
         db_sess = db_session.create_session()
-        print("f == ''", f.read())
-        print(request.form["about"].strip() == "" and f.read() == "", request.form["about"].strip() == "",
-              f.read() == "")
+        print(f.filename)
+        print(request.form["about"].strip() == "" and f.read() == b'', request.form["about"].strip() == "",
+              f.read() == b'')
         if request.form["about"].strip() == "" and f.read() == b'':
             return redirect('/forms')
         mess = Message()
@@ -260,6 +263,7 @@ def form_admin(email_recipient):
         if f.read() != b'':
             os.chdir('static/img')
             dd = len(os.listdir())
+
             os.chdir("..")
             os.chdir("..")
             file = open(f"static/img/{dd}.jpg", mode="wb")
@@ -462,4 +466,4 @@ def add_admin(password):
 
 if __name__ == "__main__":
     db_session.global_init('db/icon_master.db')
-    app.run(host="192.168.0.103", debug=True)  # 192.168.43.170
+    app.run(host="192.168.0.104", debug=True)  # 192.168.43.170

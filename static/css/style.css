@@ -17,36 +17,12 @@ margin-left: auto;
 }
 
 
-.mess {
-    position:relative;
-    width: 40vw;
-    left:55vw;
-    height:69vh;
-    overflow-y: auto;
-    margin:0;
-}
+
 .background-img {position:fixed ;
 width:68vw;
     height:80vh;}
-.mess-admin {
-    position:relative;
-    width: 70vw;
-    left:30vw;
-    height:80vh;
-    overflow-y: scroll;
-    margin:0;
-}
 
-.form2 {
-    position:fixed;
-    width:98vw;
-    bottom:0vh;
-    background-color: #cfe2ff;
-    border: 1px solid gray;
-    border-radius: 5px;
-    padding: 10px;
-    padding-down:0;
-}
+
 .submit_btn {display:inline-block; margin:10px;}
 
 
@@ -72,26 +48,16 @@ h2 {
  }
 
 
-.message-other {
-    width:20vw;
-}
 
-.mess-img {width:18vw;margin-right:0.5vw;}
-.my-message {
-    position:relative;
-    left:10vw;
-    width:20vw;
-}
 
 .my_img {
     width: 25vw;
 
 }
 
-
 #alert {
     width: 36vw;
-    margin-top:9vh;
+    margin-top:12vh;
     margin-right:10px;
     margin-left:10px;
     font-size: 18pt;
@@ -139,8 +105,11 @@ h2 {
 }
 
 .form-container {
-display:flex;
-justify-content:center;}
+    display:flex;
+    justify-content:center;
+}
+
+
 .icon_container {
 position:relative;
 left:5vw;
@@ -308,14 +277,8 @@ position: relative;
   box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
   z-index: 1;
 }
-.content-email {
-display:block;
-position:absolute;
-    width:30vw;
-  background-color: #f1f1f1;
-  min-width: 160px;
- }
- .a-email { color:black;text-decoration:none;}
+
+
  .email {border-radius: 10px;height:7vh;margin:2px;}
 /* Ссылки внутри выпадающего списка */
 .dropdown-content a {
@@ -365,7 +328,6 @@ background-color: #3e8e41;
     width:30vw;
     margin:3vw
     }
-.time-mess {font-size:10pt;float:left;}
 
 .car-img {
 width:60vw;
@@ -386,7 +348,6 @@ width:60vw;
     }
 .main-car {
 display: flex;
-	align-items: center;
     justify-content: center;}
 .zak-con {width:60vw;margin-right:auto;margin-left:auto;}
 .car-ogr {
@@ -419,25 +380,17 @@ margin-top: 10vh;
         position:relative;
         top:10vh;
         }
-    .message-other {
-position:relative;
-left:30vw;
-}
-
-.my-message {
-    position:relative;
-    left:40vw;
-}
-
+    #alert {
+        margin-top:25vh;
+ }
 
 }
+.info-nav {position:relative;bottom:0px;}
 @media screen and (width < 981px) {
-a-email { font-size:30pt;}
-.background-img {position:fixed ;
-width:95vw;
-    height:80vh;}
-    .message-other {position:relative; left:3vw;}
-    .time-mess {font-size:16pt;}
+
+.main-car {height:1000px;}
+
+
     .button {font-size:40pt;}
     .car-ogr {
     top: 10vh;
@@ -445,7 +398,7 @@ width:95vw;
         width:40vw;
 
         }
-    .mess {width:90vw;left:5vw;}
+
     .car-img {
         max-width:90vw;
         width:85vw;
@@ -461,22 +414,6 @@ width:95vw;
         margin:5vw;
         }
 
-    .my-message {
-    font-size: 20pt;
-        width:60vw;
-
-        }
-
-
-    .message-other {
-    font-size: 20pt;
-        width:60vw;
-        }
-     .mess-admin {
-     position:relative;
-        left:15vw;
-        width:90vw;
-     }
     .block_img {width: 70vw;max-width:70vw;}
 
 
@@ -490,6 +427,3 @@ width:95vw;
         font-size: 5vw;
     }
 }
-
-
-

@@ -1,0 +1,148 @@
+.time-mess {font-size:10pt;float:left;}
+
+
+.background-img {
+    position:fixed;
+    width:68vw;
+    height:80vh;
+    left:30vw;}
+
+
+.message-other {
+    position:relative;
+    left:3vw;
+    width:20vw;
+}
+
+
+.mess-img {
+    width:18vw;
+    margin-right:0.5vw;
+}
+
+
+.my-message {
+    position:relative;
+    width:20vw;
+    position:relative;
+    left:40vw;
+}
+
+
+.mess-admin {
+    position:relative;
+    width: 70vw;
+    left:30vw;
+    height:80vh;
+    overflow-y: scroll;
+    margin:0;
+    -webkit-overflow-scrolling:touch;
+}
+
+
+.form2 {
+    position:fixed;
+    width:98vw;
+    bottom:0vh;
+    background-color: #cfe2ff;
+    border: 1px solid gray;
+    border-radius: 5px;
+    padding: 10px;
+    padding-down:0;
+    font-size:15pt;
+
+}
+
+
+.mess {
+    position:relative;
+    width: 40vw;
+    left:55vw;
+    height:69vh;
+    overflow-y: auto;
+    margin:0;
+}
+
+
+.chat-btn {
+    position:fixed;
+    display:none;
+    background-color:#f0f0f0;
+    font-size:20pt;
+    text-decoration:none;
+    padding:10px;
+    border-radius:5px;
+    }
+
+ .a-email { color:black;
+ border:none;
+ min-height:40px;
+ text-decoration:none;
+   width:30vw;
+}
+.container-mess{}
+.content-email {
+    position:absolute;
+    top:1;
+    width:30vw;
+    background-color: #f1f1f1;
+    min-width: 160px;
+ }
+ .text {font-size:50pt;}
+@media screen and (width < 981px) {
+    .container-mess {width:100vw;}
+    .form2 {font-size:50pt;}
+    .text {font-size:50pt;}
+    .mess {
+        width:90vw;
+        left:5vw;
+    }
+    .a-email {width:100vw;
+    font-size:40pt;
+    border:none;}
+    .content-email {
+
+    width:98vw;
+    font-size:20pt;}
+    .chat-btn {
+    display:block;
+    top:7vh;
+    font-size:30pt;
+    border-radius:20px;}
+
+    .mess-img {width:56vw;}
+
+    .message-other {
+        position:relative;
+        left:3vw;
+        font-size: 20pt;
+        width:60vw;
+        }
+
+    .time-mess {
+    font-size:16pt;
+    }
+
+    .my-message {
+        font-size: 20pt;
+        width:60vw;
+        left:10vw;
+        }
+
+
+     .mess-admin {
+     position:relative;
+        left:5vw;
+        width:95vw;
+        height:87vh;
+     }
+
+    .background-img {
+        position:fixed;
+        left:0vw;
+        width:100vw;
+        height:87vh;
+    }
+}
+
+
