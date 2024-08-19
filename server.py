@@ -15,6 +15,7 @@ from forms.edit_email_form import EditEmailName
 from forms.password_form import EditPassword
 import hashlib
 import csv
+from ip_ import get_ip
 
 app = Flask(__name__)
 
@@ -82,9 +83,7 @@ def carousel(icon_name):
     return render_template("carousel.html", title='Иконы', name=icon_name, left=data[left]['file'],
                            right=data[right]['file'])
 
-@app.route("/test")
-def test():
-    return render_template("test.html")
+
 @app.route('/register', methods=['GET', 'POST'])
 def reqister():
     form = RegisterForm()
@@ -263,7 +262,6 @@ def form_admin(email_recipient):
         if f.read() != b'':
             os.chdir('static/img')
             dd = len(os.listdir())
-
             os.chdir("..")
             os.chdir("..")
             file = open(f"static/img/{dd}.jpg", mode="wb")
@@ -466,4 +464,4 @@ def add_admin(password):
 
 if __name__ == "__main__":
     db_session.global_init('db/icon_master.db')
-    app.run(host="192.168.0.104", debug=True)  # 192.168.43.170
+    app.run(host=get_ip(), debug=True)  # 192.168.43.170
