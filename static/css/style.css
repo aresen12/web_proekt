@@ -288,6 +288,7 @@ position: relative;
   display: block;
 }
 
+.caption {display:flex;justify-content:center;}
 /* Изменение цвета выпадающих ссылок при наведении курсора */
 .dropdown-content a:hover {
 background-color: #ddd;
@@ -332,6 +333,9 @@ background-color: #3e8e41;
 .car-img {
 width:60vw;
 }
+
+
+
 .pack {
     position:relative;
     margin-left:auto;
@@ -339,13 +343,7 @@ width:60vw;
     width:80vw;
     margin-top: 10vh;
 }
-.date {
-    margin-left:auto;
-    margin-right:auto;
-    color:gray;
-    display:flex;
-    justify-content:center;
-    }
+
 .main-car {
 display: flex;
     justify-content: center;}

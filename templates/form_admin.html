@@ -19,7 +19,7 @@
 
 </style>
 
-<div>
+<div style="display:flex;">
 <div class="content-email">
         {% for email in emails %}
             <a href="/forms/{{ email[0] }}">
@@ -31,7 +31,8 @@
         {% endfor %}
     </div>
 
-{% if email_recipient %}<img src="/static/img/font.jpg" class="background-img">
+{% if email_recipient %}
+    <img src="/static/img/font.jpg" class="background-img">
     <div class="mess-admin" id="container-mess">
 
         <div id="content"></div>

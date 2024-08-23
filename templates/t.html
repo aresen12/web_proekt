@@ -1,0 +1,51 @@
+{% set date = [] %}
+{%for mess in message %}
+{% if (current_user.email == mess.email_sender and email_recipient == mess.email_recipient) or
+current_user.email ==
+mess.email_recipient and email_recipient == mess.email_sender%}
+{% if date == [] or (date != [] and mess.get_date() != date[-1]) %}
+{% if date.append(mess.get_date()) %}{% endif %}
+<div class="date" >{{ date[-1] }}</div>
+{% endif %}
+{% if current_user.email == mess.email_sender%}
+<div class="alert alert-success my-message" role="alert">
+    {% if none != mess.img %}
+
+    <a href="/watch/{{mess.img}}/{{email_recipient}}">
+        <img class="mess-img" src="/static/img/{{mess.img}}"></a>
+    {% endif %}
+    <p>
+        {{mess.message}}
+    </p>
+    <p class="time-mess">{{mess.get_time()}} {% if mess.read %}
+        <button type="button" class="info-btn " data-bs-toggle="tooltip" data-bs-placement="top"
+                title="прочитано">
+            ✓✓
+        </button>
+        {% else %}
+        <button type="button" class="info-btn" data-bs-toggle="tooltip" data-bs-placement="top"
+                title="доставлено">
+            ✓
+        </button>
+        {% endif %}
+    </p>
+</div>
+{% else %}
+<div class="alert alert-info message-other" role="alert">
+    {% if none != mess.img %}
+
+    <a href="/watch/{{mess.img}}/{{email_recipient}}">
+        <img class="mess-img" src="/static/img/{{mess.img}}"></a>
+    {% endif %}
+    <p>
+        {{mess.message}}
+    </p>
+
+    <p class="time-mess">{{mess.get_time()}}</p>
+</div>
+{% endif %}
+{% endif %}
+{% endfor %}
+    <div id="pos">
+
+    </div>

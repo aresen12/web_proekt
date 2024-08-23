@@ -8,7 +8,7 @@
     {% for item in icons %}
     {% for row in item %}
     <figure style="display:inline-block;margin:2vw;" class="block_img">
-        <figcaption>{{row["title"]}}</figcaption>
+        <figcaption class="caption">{{row["title"]}}</figcaption>
         <a href="/carousel/{{row['file']}}">
             <img class="scale" src="static/img/{{row['file']}}.jpg">
             <!--            <figcaption class="zak" href="/zak_got">заказать</figcaption>-->

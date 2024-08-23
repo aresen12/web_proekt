@@ -167,6 +167,7 @@ def form_api(re):
         return render_template("t.html", message=message, email_recipient=re)
     return render_template("t.html")
 
+
 @app.route("/forms", methods=["GET", "POST"])
 def form_st():
     if request.method == 'GET':
@@ -221,15 +222,15 @@ def form_st():
         return redirect('/forms')
 
 
-@app.route("/watch/<name>")
-def watch(name):
-    return render_template("watch_img.html", name=name)
+@app.route("/watch/<name>/<em_r>")
+def watch(name, em_r):
+    return render_template("watch_img.html", name=name, em_r=em_r)
 
 
 @app.route("/forms/<email_recipient>", methods=["GET", "POST"])
 def form_admin(email_recipient):
     if request.method == 'GET':
-        if current_user.admin:
+        if current_user.is_authenticated and current_user.admin:
             db_sess = db_session.create_session()
             emails = db_sess.query(User.email).all()
             print(emails)
@@ -249,17 +250,14 @@ def form_admin(email_recipient):
     elif request.method == "POST":
         f = request.files["img"]
         db_sess = db_session.create_session()
-        print(f.filename)
-        print(request.form["about"].strip() == "" and f.read() == b'', request.form["about"].strip() == "",
-              f.read() == b'')
-        if request.form["about"].strip() == "" and f.read() == b'':
+        if request.form["about"].strip() == "" and f.filename == "":
             return redirect('/forms')
         mess = Message()
         db_sess.query(User).filter(User.email == current_user.email)
         mess.name_sender = current_user.name
         mess.email_sender = current_user.email
         mess.message = request.form["about"]
-        if f.read() != b'':
+        if f.filename != "":
             os.chdir('static/img')
             dd = len(os.listdir())
             os.chdir("..")
@@ -288,6 +286,7 @@ def edit_email():
         user.email = form.email.data
         user.name = form.name.data
         db_sess.commit()
+
         return redirect('/profile')
     else:
         form.email.data = current_user.email
@@ -464,4 +463,5 @@ def add_admin(password):
 
 if __name__ == "__main__":
     db_session.global_init('db/icon_master.db')
+
     app.run(host=get_ip(), debug=True)  # 192.168.43.170

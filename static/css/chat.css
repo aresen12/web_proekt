@@ -14,6 +14,45 @@
     width:20vw;
 }
 
+.zatemnenie {
+        background: black;
+        width: 100%;
+        height: 1000%;
+        position: absolute;
+        top: 0;
+        left: 0;
+        display: none;
+      }
+      .okno { text-align: center;
+        padding: 15px;
+        border-radius: 10px;
+        color: #0000cc;
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        margin: auto;
+        background: black;
+        width: 60vw;
+      }
+      .zatemnenie:target {display: block;
+      position: absolute;
+        top: 0;
+        left: 0;}
+      .close {
+        display: inline-block;
+        border: 1px solid #0000cc;
+        color: #0000cc;
+        padding: 0 12px;
+        margin: 10px;
+        text-decoration: none;
+        background: black;
+        font-size: 14pt;
+        cursor:pointer;
+      }
+      .close:hover {background: #e6e6ff;}
+
 
 .mess-img {
     width:18vw;
@@ -32,7 +71,7 @@
 .mess-admin {
     position:relative;
     width: 70vw;
-    left:30vw;
+    left:0vw;
     height:80vh;
     overflow-y: scroll;
     margin:0;
@@ -56,11 +95,12 @@
 
 .mess {
     position:relative;
-    width: 40vw;
-    left:55vw;
-    height:69vh;
-    overflow-y: auto;
+    width: 70vw;
+    left:30vw;
+    height:80vh;
+    overflow-y: scroll;
     margin:0;
+    -webkit-overflow-scrolling:touch;
 }
 
 
@@ -75,19 +115,25 @@
     }
 
  .a-email { color:black;
+ background-color:#cccccc;
  border:none;
  min-height:40px;
  text-decoration:none;
    width:30vw;
 }
-.container-mess{}
+
 .content-email {
-    position:absolute;
+    position:relative;
     top:1;
     width:30vw;
     background-color: #f1f1f1;
     min-width: 160px;
  }
+ .date {
+    display:flex;
+    justify-content:center;
+    color:gray;
+    }
  .text {font-size:50pt;}
 @media screen and (width < 981px) {
     .container-mess {width:100vw;}
@@ -97,6 +143,9 @@
         width:90vw;
         left:5vw;
     }
+    .date {font-size:14pt;
+    text-align:center;}
+
     .a-email {width:100vw;
     font-size:40pt;
     border:none;}
@@ -115,16 +164,19 @@
     .message-other {
         position:relative;
         left:3vw;
-        font-size: 20pt;
+        font-size: 25pt;
         width:60vw;
         }
 
     .time-mess {
     font-size:16pt;
+    float:none;
+    margin:0px;
+
     }
 
     .my-message {
-        font-size: 20pt;
+        font-size: 25pt;
         width:60vw;
         left:10vw;
         }
