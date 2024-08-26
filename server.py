@@ -1,6 +1,5 @@
 import os
 from flask import Flask, request, render_template, redirect, abort
-import json
 from forms.login_form import LoginForm
 from flask_login import LoginManager, login_user, login_required, logout_user, current_user
 from data import db_session
@@ -10,12 +9,13 @@ from data.product import Product
 from data.rest import Rest
 from forms.zak_form import ZakForm
 from forms.register_form import RegisterForm
-from podsob import load_json_config, load_json_config_restv
 from forms.edit_email_form import EditEmailName
 from forms.password_form import EditPassword
 import hashlib
 import csv
 from ip_ import get_ip
+from check import create_name
+from data.icon import Icon
 
 app = Flask(__name__)
 
@@ -109,10 +109,9 @@ def reqister():
 
 @app.route("/icon")
 def icon():
-    with open('config.json', encoding='utf-8') as file:
-        news_list = json.loads(file.read())
-        print(news_list)
-        return render_template('icon_base.html', title='иконы', icons=news_list)
+    db_sess = db_session.create_session()
+    news_list = db_sess.query(Icon).all()
+    return render_template('icon_base.html', title='иконы', icons=news_list)
 
 
 @app.route("/restv")
@@ -338,18 +337,13 @@ def add_work():
         abort(404)
     if request.method == 'POST':
         f = request.files['file']
-        csv_file = open("config.csv", encoding='utf-8')
-        data = csv_file.readlines()
-        file_out = open(f"static/img/icon{len(data)}.jpg", mode='wb')
-        file_out.write(f.read())
-        file_out.close()
-        data.append(f"\nicon{len(data)};{request.form['about']};")
-        csv_file.close()
-        csv_file = open("config.csv", encoding='utf-8', mode="w", newline="")
-        for _ in data:
-            csv_file.writelines(_)
-        csv_file.close()
-        load_json_config()
+        name = create_name()
+        db_sess = db_session.create_session()
+        icon_ = Icon()
+        icon_.img = name
+        icon_.caption = request.form['about']
+        db_sess.add(icon_)
+        db_sess.commit()
         return render_template("ansver_work.html")
     if request.method == 'GET':
         return render_template('ad_work.html')

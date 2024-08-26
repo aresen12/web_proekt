@@ -135,6 +135,9 @@
     color:gray;
     }
  .text {font-size:50pt;}
+
+ .btn_down {position:fixed;
+ bottom:10vh; right:2vw;}
 @media screen and (width < 981px) {
     .container-mess {width:100vw;}
     .form2 {font-size:50pt;}

@@ -6,16 +6,12 @@
 <div class="icon_container" style="margin-right: 5vw;">
     <h2 class="h_ic">Мои работы</h2>
     {% for item in icons %}
-    {% for row in item %}
     <figure style="display:inline-block;margin:2vw;" class="block_img">
-        <figcaption class="caption">{{row["title"]}}</figcaption>
-        <a href="/carousel/{{row['file']}}">
-            <img class="scale" src="static/img/{{row['file']}}.jpg">
-            <!--            <figcaption class="zak" href="/zak_got">заказать</figcaption>-->
+        <figcaption class="caption">{{item.caption}}</figcaption>
+        <a href="/carousel/{{item.img}}">
+            <img class="scale" src="static/img/{{item.img}}">
         </a>
     </figure>
     {% endfor %}
-    {% endfor %}
-
 </div>
 {% endblock %}
