@@ -20,6 +20,9 @@
     </nav>
 </header>
 <h1>Добро пожаловать, {{current_user.name}}!</h1>
+{% if current_user.is_authenticated  and current_user.admin %}
+<a class="btn btn-secondary" href="/control">В пункт управления</a>
+{% endif %}
 <div class="pers">
     <div>
         email: {{current_user.email}} <a class="edit" href="/edit/email">Редактировать</a>

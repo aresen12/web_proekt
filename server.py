@@ -221,8 +221,9 @@ def form_st():
         return redirect('/forms')
 
 
+@app.route("/watch/<name>")
 @app.route("/watch/<name>/<em_r>")
-def watch(name, em_r):
+def watch(name, em_r=""):
     return render_template("watch_img.html", name=name, em_r=em_r)
 
 
@@ -441,6 +442,73 @@ def profile():
                            email_recipient="evnomiya@yandex.ru")
 
 
+@app.route("/delete/<name>")
+def delete(name):
+    print(request.form["dir"])
+    os.chdir(request.form["dir"])
+    os.remove(name)
+    os.chdir("D:\Yandex_Lyceum\god2\web_proekt")
+    return redirect("/control")
+
+
+@app.route("/rename/<name>", methods=["GET", "POST"])
+def rename(name):
+    return ""
+
+
+@app.route("/file/<name>", methods=["POST"])
+def file_watch(name):
+    dir2 = request.form[name]
+    file = open(f"{dir2}", mode="r", encoding="utf-8")
+    data = file.read()
+    file.close()
+    f = dir2.split("/")
+    print(f)
+    return render_template("file.html", text=data, name_dir=dir2, f=f)
+
+
+@app.route("/cd_dir/<ff>", methods=["POST"])
+def cd(ff):
+    dir2 = request.form[ff]
+    print(dir2)
+    os.chdir(dir2)
+    name_dir = os.getcwd()
+    list_dir = os.listdir()
+    os.chdir("D:\Yandex_Lyceum\god2\web_proekt")
+    return render_template("control_point.html", name_dir=name_dir, dir=list_dir)
+
+
+@app.route("/control/<name_dir>")
+@app.route("/control", methods=["GET", "POST"])
+def control(name_dir="static/img/"):
+    os.chdir("D:\Yandex_Lyceum\god2\web_proekt")
+    if request.method == "GET":
+        if name_dir == "<-":
+            name_dir = ".."
+        os.chdir(name_dir)
+        name_dir = os.getcwd()
+        list_dir = os.listdir()
+        os.chdir("D:\Yandex_Lyceum\god2\web_proekt")
+        return render_template("control_point.html", name_dir=name_dir, dir=list_dir)
+    else:
+        try:
+            value = request.form["btn-left"]
+        except KeyError:
+            value = request.form["btn-right"]
+        if value == "<-":
+            value = "\\".join(request.form["dir"].strip().split("\\")[:-1])
+        os.chdir(value)
+        name_dir = os.getcwd()
+        list_dir = os.listdir()
+        os.chdir("D:\Yandex_Lyceum\god2\web_proekt")
+        return render_template("control_point.html", name_dir=name_dir, dir=list_dir)
+
+
+@app.route("/cd_dir/<name>")
+def cd_dir(name):
+    return ""
+
+
 @app.route("/api/add_admin/<password>")
 def add_admin(password):
     salt = "5gz"
@@ -457,5 +525,4 @@ def add_admin(password):
 
 if __name__ == "__main__":
     db_session.global_init('db/icon_master.db')
-
     app.run(host=get_ip(), debug=True)  # 192.168.43.170

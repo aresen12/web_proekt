@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block content %}
+<form method="post" action="/control">
+    <textarea style="display:none;" name="dir" id="dir" cols="1" rows="1">
+        {{ f[0] }}
+    </textarea>
+    <button type="submit" value="<-" name="btn-left" class="btn btn-secondary">
+        <--
+    </button>
+</form>
+<h2>{{name_dir}}</h2>
+<textarea class="dir" rows="20">
+    {{ text }}
+</textarea>
+{% endblock %}

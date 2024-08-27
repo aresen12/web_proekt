@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+{% block content %}
+{% if current_user.is_authenticated and current_user.admin %}
+<form method="post" action="/control">
+    <textarea style="display:none;" name="dir" id="dir" cols="1" rows="1">
+        {{name_dir}}
+    </textarea>
+    <button type="submit" value="<-" name="btn-left" class="btn btn-secondary">
+        <--
+    </button>
+
+</form>
+<h2>{{name_dir}}</h2>
+<div class="dir">
+    {% for item in dir %}
+    {% if ".jpg" in item or ".png" in item or ".bmp" in item %}
+    <div class="my-a">
+        <div class="file-name">
+            <a class="my-a" href="/watch/{{item}}">{{ item }}</a>
+            <a href="/delete/{{ item }}" class="btn btn-danger btn2">delete</a>
+            <a class="btn btn-primary" href="/rename/{{ item }}">rename</a>
+        </div>
+
+        {% elif ".py" in item or ".css" in item or ".html" in item or ".ui" in item %}
+        <form class="file-name" method="post" action="/file/{{ item }}">
+            <button class="dir-name">{{ item }}</button>
+            <textarea style="display:none;" name="{{ item }}" id="{{ item}}" cols="1"
+                      rows="1">{{name_dir}}/{{item}}</textarea>
+            <a href="/delete/{{ item }}" class="btn btn-danger btn2">delete</a>
+            <a class="btn btn-primary" href="/rename/{{ item }}">rename</a>
+        </form>
+        {% else %}
+        <form class="file-name" method="post" action="/cd_dir/{{ item }}">
+            <button class="dir-name">{{ item }}</button>
+            <textarea style="display:none;" name="{{ item }}" id="{{ item }}" cols="1"
+                      rows="1">{{name_dir}}/{{item}}</textarea>
+            <a href="/delete/{{ item }}" class="btn btn-danger btn2">delete</a>
+            <a class="btn btn-primary" href="/rename/{{ item }}">rename</a>
+        </form>
+        {% endif %}
+        {% endfor %}
+    </div>
+    <h2>Добавить работы</h2>
+    <a href="api/add_work" class="btn btn-secondary">Добавить икону</a>
+    <a href="api/add_restv/1" class="btn btn-secondary">Добавить реставрацию</a>
+    <a href="api/add_got_icon/1" class="btn btn-secondary">Добавить продукт</a>
+    {% endif %}
+</div>
+{% endblock %}
