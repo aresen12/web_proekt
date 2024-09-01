@@ -22,7 +22,7 @@
 <div style="display:flex;">
 <div class="content-email">
         {% for email in emails %}
-            <a href="/forms/{{ email[0] }}">
+            <a href="/m/{{ email[0] }}">
                 <button class="a-email">
                     {{email[0]}}
                 </button>
@@ -35,28 +35,10 @@
     <img src="/static/img/font.jpg" class="background-img">
     <div class="mess-admin" id="container-mess">
         <div id="content"></div>
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-  <script>
-    function show()
-    {
-      $.ajax({
-    url: '/api/forms/{{email_recipient}}',
-    type: 'GET',
-    dataType: 'html',
-    success: function(html){
-          $("#content").html(html);
-          window.location.hash = "#pos";
-        },
-    error: function(err) {
-        console.error(err);
-    }
-});
-    }
-show();
-setInterval(show, 10000);
-
-  </script>
-
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js">
+        </script>
+<script>var email_recipient = "{{email_recipient}}";</script>
+  <script src="/static/javascript/update.js"></script>
     </div>
 </div>{% endif %}
 {% if email_recipient %}

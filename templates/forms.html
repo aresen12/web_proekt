@@ -44,26 +44,8 @@
         <div id="content"></div>
 
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-  <script>
-    function show()
-    {
-      $.ajax({
-    url: '/api/forms/evnomiya@yandex.ru',
-    type: 'GET',
-    dataType: 'html',
-    success: function(html){
-          $("#content").html(html);
-          window.location.hash = "#pos";
-        },
-    error: function(err) {
-        console.error(err);
-    }
-});
-    }
-show();
-setInterval(show, 10000);
-
-  </script>
+  <script>var email_recipient = "{{email_recipient}}";</script>
+  <script src="/static/javascript/update.js"></script>
 
     </div>
 </div>
