@@ -23,8 +23,8 @@ app.config['SECRET_KEY'] = 'yandexlyceum_secret_key'
 hash_password = '7cb8fa366d774761d198d3dc6244740c'
 login_manager = LoginManager()
 login_manager.init_app(app)
-
-
+global_dir_name = os.getcwd()
+print(global_dir_name)
 @login_manager.user_loader
 def load_user(user_id):
     db_sess = db_session.create_session()
@@ -447,7 +447,7 @@ def delete(name):
     print(request.form["dir"])
     os.chdir(request.form["dir"])
     os.remove(name)
-    os.chdir("D:\Yandex_Lyceum\god2\web_proekt")
+    os.chdir(global_dir_name)
     return redirect("/control")
 
 
@@ -474,21 +474,21 @@ def cd(ff):
     os.chdir(dir2)
     name_dir = os.getcwd()
     list_dir = os.listdir()
-    os.chdir("D:\Yandex_Lyceum\god2\web_proekt")
+    os.chdir(global_dir_name)
     return render_template("control_point.html", name_dir=name_dir, dir=list_dir)
 
 
 @app.route("/control/<name_dir>")
 @app.route("/control", methods=["GET", "POST"])
 def control(name_dir="static/img/"):
-    os.chdir("D:\Yandex_Lyceum\god2\web_proekt")
+    os.chdir(global_dir_name)
     if request.method == "GET":
         if name_dir == "<-":
             name_dir = ".."
         os.chdir(name_dir)
         name_dir = os.getcwd()
         list_dir = os.listdir()
-        os.chdir("D:\Yandex_Lyceum\god2\web_proekt")
+        os.chdir(global_dir_name)
         return render_template("control_point.html", name_dir=name_dir, dir=list_dir)
     else:
         try:
@@ -500,7 +500,7 @@ def control(name_dir="static/img/"):
         os.chdir(value)
         name_dir = os.getcwd()
         list_dir = os.listdir()
-        os.chdir("D:\Yandex_Lyceum\god2\web_proekt")
+        os.chdir(global_dir_name)
         return render_template("control_point.html", name_dir=name_dir, dir=list_dir)
 
 
