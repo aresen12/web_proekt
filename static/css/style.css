@@ -166,14 +166,15 @@ width: 25vw;max-width:25vw;
 
 
 .name-product {font-weight:bold;}
-.close-btn {position:absolute;text-decoration: none;}
+.close-btn {position:absolute;text-decoration: none; color:red;}
 .zatemnenie {
         background: black;
         width: 100%;
         position: absolute;
         top: 0;
         left: 0;
-        display: block;
+        display: flex;
+        text-align:center;
       }
 
 

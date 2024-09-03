@@ -34,7 +34,7 @@ def m(email_recipient):
         f = request.files["img"]
         db_sess = db_session.create_session()
         if request.form["about"].strip() == "" and f.filename == "":
-            return redirect('/forms')
+            return redirect('/m')
         mess = Message()
         db_sess.query(User).filter(User.email == current_user.email)
         mess.name_sender = current_user.name
@@ -57,7 +57,7 @@ def m(email_recipient):
             log = get_text_messages(
                 f'заказ\nИмя: {current_user.name} \nemail: {current_user.email}\n сообщение: {request.form["about"]}')
             print(log)
-        return redirect(f'/forms/{email_recipient}')
+        return redirect(f'/m/{email_recipient}')
 
 
 @mg.route("/update/<re>", methods=["GET", "POST"])
@@ -99,7 +99,7 @@ def m_st():
             request.files["img"]))
         if request.form["about"].strip() == "" and str(
                 request.files["img"]) == "<FileStorage: '' (application/octet-stream)>":
-            return redirect('/forms')
+            return redirect('/m')
         db_sess = db_session.create_session()
         mess = Message()
         db_sess.query(User).filter(User.email == current_user.email)
@@ -124,4 +124,4 @@ def m_st():
             log = get_text_messages(
                 f'заказ\nИмя: {current_user.name} \nemail: {current_user.email}\n сообщение: {request.form["about"]}')
             print(log)
-        return redirect('/forms')
+        return redirect('/m')

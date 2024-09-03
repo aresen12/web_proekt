@@ -1,18 +1,6 @@
 {% extends "base.html" %}
 {% block content %}
 {% if current_user.is_authenticated %}
-<!--<script>function showDiv(Div) {-->
-<!--    var x = document.getElementById(Div);-->
-<!--    var y = document.getElementById("mess");-->
-<!--    if(x.style.display=="none") {-->
-<!--        x.style.display = "block";-->
-<!--    } else {-->
-<!--        x.style.display = "none";-->
-<!--        y.style.height = "80vh"-->
-
-<!--    }-->
-<!--}-->
-<!--</script>-->
 <style>
       input[type="file"]{
         display: none;
@@ -69,16 +57,7 @@
             </label>
         </div>
 
-        <script>
-        let input = document.getElementById("inputTag");
-        let imageName = document.getElementById("imageName")
-        input.addEventListener("change", ()=>{
-            let inputImage = document.querySelector("input[type=file]").files[0];
-
-            imageName.innerText = inputImage.name;
-        })
-
-        </script>
+        <script src="/static/javascript/form.js"></script>
     </div>
 </form>
 {% else %}
