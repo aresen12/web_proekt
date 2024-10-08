@@ -20,21 +20,21 @@ def m(email_recipient):
             message = db_sess.query(Message).filter(Message.email_recipient == current_user.email).all()
             mes2 = db_sess.query(Message).filter(Message.email_sender == current_user.email).all()
             message = message + mes2
-            # print(request.form["about"])
             print(message)
             message.sort(key=lambda x: x.time)
             for mess in message:
                 if mess.email_recipient == current_user.email:
                     mess.read = True
             db_sess.commit()
+            db_sess.close()
             return render_template("form_admin.html", title='ответить', emails=emails, message=message,
                                    email_recipient=email_recipient)
         return render_template("forms.html", title='Заказать')
     elif request.method == "POST":
         f = request.files["img"]
-        db_sess = db_session.create_session()
         if request.form["about"].strip() == "" and f.filename == "":
             return redirect('/m')
+        db_sess = db_session.create_session()
         mess = Message()
         db_sess.query(User).filter(User.email == current_user.email)
         mess.name_sender = current_user.name
@@ -52,6 +52,7 @@ def m(email_recipient):
         mess.email_recipient = email_recipient
         db_sess.add(mess)
         db_sess.commit()
+        db_sess.close()
         if current_user.email != "evnomiya@yandex.ru":
             from send import get_text_messages
             log = get_text_messages(
@@ -68,7 +69,7 @@ def m_update(re):
         mes2 = db_sess.query(Message).filter(Message.email_sender == current_user.email).all()
         message = message + mes2
         message.sort(key=lambda x: x.time)
-        print(message)
+        db_sess.close()
         return render_template("t.html", message=message, email_recipient=re)
     return render_template("t.html")
 
@@ -81,7 +82,7 @@ def m_st():
         if current_user.is_authenticated and current_user.admin:
             db_sess = db_session.create_session()
             emails = db_sess.query(User.email).all()
-            print(emails)
+            db_sess.close()
             return render_template("form_admin.html", title='ответить', emails=emails, email_recipient=0)
         db_sess = db_session.create_session()
         message = db_sess.query(Message).filter(Message.email_recipient == current_user.email).all()
@@ -92,6 +93,7 @@ def m_st():
             if mess.email_recipient == current_user.email:
                 mess.read = True
         db_sess.commit()
+        db_sess.close()
         return render_template("forms.html", title='Заказать', date="no date", message=message,
                                email_recipient="evnomiya@yandex.ru")
     elif request.method == "POST":
@@ -119,6 +121,7 @@ def m_st():
         mess.email_recipient = "evnomiya@yandex.ru"
         db_sess.add(mess)
         db_sess.commit()
+        db_sess.close()
         if current_user.email != "evnomiya@yandex.ru":
             from send import get_text_messages
             log = get_text_messages(

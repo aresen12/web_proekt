@@ -25,11 +25,14 @@ login_manager = LoginManager()
 login_manager.init_app(app)
 global_dir_name = os.getcwd()
 print(global_dir_name)
+
+
 @login_manager.user_loader
 def load_user(user_id):
     db_sess = db_session.create_session()
-    return db_sess.get(User, user_id)
-
+    res = db_sess.get(User, user_id)
+    db_sess.close()
+    return res
 
 @app.route("/")
 @app.route("/main")
@@ -45,7 +48,9 @@ def login():
         user = db_sess.query(User).filter(User.email == form.email.data).first()
         if user and user.check_password(form.password.data):
             login_user(user, remember=form.remember_me.data)
+            db_sess.close()
             return redirect("/")
+        db_sess.close()
         return render_template('login.html',
                                message="Неправильный логин или пароль",
                                form=form)
@@ -94,6 +99,7 @@ def reqister():
                                    message="Пароли не совпадают")
         db_sess = db_session.create_session()
         if db_sess.query(User).filter(User.email == form.email.data).first():
+            db_sess.close()
             return render_template('register.html', title='Регистрация',
                                    form=form,
                                    message="Такой пользователь уже есть")
@@ -103,6 +109,7 @@ def reqister():
         user.set_password(form.password.data)
         db_sess.add(user)
         db_sess.commit()
+        db_sess.close()
         return redirect('/login')
     return render_template('register.html', title='Регистрация', form=form)
 
@@ -111,6 +118,7 @@ def reqister():
 def icon():
     db_sess = db_session.create_session()
     news_list = db_sess.query(Icon).all()
+    db_sess.close()
     return render_template('icon_base.html', title='иконы', icons=news_list)
 
 
@@ -121,6 +129,7 @@ def restv():
     for _ in range(len(work_list)):
         work_list[_].img_list = work_list[_].img_list.split()
         print(work_list[_].img_list)
+    db_sess.close()
     return render_template('restv.html', restv=work_list, title='реставрация')
 
 
@@ -128,6 +137,7 @@ def restv():
 def available():
     db_sess = db_session.create_session()
     data = db_sess.query(Product).all()
+    db_sess.close()
     return render_template("available.html", title='В наличии', icons=data)
 
 
@@ -140,6 +150,7 @@ def product_watch(name):
         list_img = item.img_list.split()
     else:
         list_img = []
+    db_sess.close()
     return render_template("product.html", item=item, title=item.name, list_img=list_img)
 
 
@@ -150,6 +161,7 @@ def del_got(icon_):
         pr = db_sess.query(Product).filter(Product.main_img == icon_).first()
         db_sess.delete(pr)
         db_sess.commit()
+        db_sess.close()
         return redirect("/available")
     abort(404)
 
@@ -169,11 +181,12 @@ def edit_email():
         user.email = form.email.data
         user.name = form.name.data
         db_sess.commit()
-
+        db_sess.close()
         return redirect('/profile')
     else:
         form.email.data = current_user.email
         form.name.data = current_user.name
+    db_sess.close()
     return render_template("edit_name.html", form=form, title='Профиль')
 
 
@@ -186,10 +199,12 @@ def edit_name():
         user.email = form.email.data
         user.name = form.name.data
         db_sess.commit()
+        db_sess.close()
         return redirect('/profile')
     else:
         form.email.data = current_user.email
         form.name.data = current_user.name
+    db_sess.close()
     return render_template("edit_name.html", form=form, title='Профиль')
 
 
@@ -199,19 +214,24 @@ def edit_password():
     db_sess = db_session.create_session()
     if form.validate_on_submit():
         if form.password.data != form.password_again.data:
+            db_sess.close()
             return render_template('edit_password.html', title='Изменение пароля',
                                    form=form,
                                    message="Пароли не совпадают")
     if form.validate_on_submit():
         user = db_sess.query(User).filter(User.id == current_user.id).first()
         if not user.check_password(form.st_password.data):
+            db_sess.close()
             return render_template("edit_password.html", form=form, title='профиль',
                                    message="Неправильный старый пароль")
         if user is None:
+            db_sess.close()
             return redirect("/login")
         user.set_password(form.password.data)
         db_sess.commit()
+        db_sess.close()
         return redirect('/profile')
+    db_sess.close()
     return render_template("edit_password.html", form=form, title='Изменение пароля')
 
 
@@ -228,6 +248,7 @@ def add_work():
         icon_.caption = request.form['about']
         db_sess.add(icon_)
         db_sess.commit()
+        db_sess.close()
         return render_template("ansver_work.html")
     if request.method == 'GET':
         return render_template('ad_work.html')
@@ -261,6 +282,7 @@ def add_work_got(i):
         pr.name = request.form['name']
         db_sess.add(pr)
         db_sess.commit()
+        db_sess.close()
         return render_template("ansver_work.html")
     if request.method == 'GET':
         return render_template('add_product.html', title="Добавление продукта", i=i)
@@ -291,6 +313,7 @@ def add_retsv(i):
         file_out.close()
         db_sess.add(rest)
         db_sess.commit()
+        db_sess.close()
         # load_json_config_restv()
         return render_template("add_restv.html", i=i)
     if request.method == 'GET':
@@ -320,7 +343,7 @@ def profile():
         Message.email_recipient == current_user.email).all()
     mes2 = db_sess.query(Message).filter(Message.email_sender == current_user.email).all()
     message = message + mes2
-    print(message)
+    db_sess.close()
     return render_template("profile.html", zakaz="not", title='Профиль', message=message,
                            email_recipient="evnomiya@yandex.ru")
 
@@ -403,6 +426,7 @@ def add_admin(password):
         user = db_sess.query(User).filter(User.id == current_user.id).first()
         user.admin = 1
         db_sess.commit()
+        db_sess.close()
         return {"log": 'True'}
 
 
